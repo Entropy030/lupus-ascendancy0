@@ -1,0 +1,3592 @@
+[
+  {
+    "day": 1,
+    "age": 15,
+    "coins": 10,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 2,
+    "age": 16,
+    "coins": 20,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 3,
+    "age": 17,
+    "coins": 30,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 4,
+    "age": 18,
+    "coins": 40,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 5,
+    "age": 19,
+    "coins": 50,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 6,
+    "age": 20,
+    "coins": 60,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 7,
+    "age": 21,
+    "coins": 70,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 8,
+    "age": 22,
+    "coins": 80,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 9,
+    "age": 23,
+    "coins": 90,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 10,
+    "age": 24,
+    "coins": 100,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 11,
+    "age": 25,
+    "coins": 110,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 12,
+    "age": 26,
+    "coins": 120,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 13,
+    "age": 27,
+    "coins": 130,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 14,
+    "age": 28,
+    "coins": 140,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 15,
+    "age": 29,
+    "coins": 150,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 16,
+    "age": 30,
+    "coins": 160,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 17,
+    "age": 31,
+    "coins": 170,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 18,
+    "age": 32,
+    "coins": 180,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 19,
+    "age": 33,
+    "coins": 190,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 20,
+    "age": 34,
+    "coins": 200,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 21,
+    "age": 35,
+    "coins": 210,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 22,
+    "age": 36,
+    "coins": 220,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 23,
+    "age": 37,
+    "coins": 230,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 24,
+    "age": 38,
+    "coins": 240,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 25,
+    "age": 39,
+    "coins": 250,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 26,
+    "age": 40,
+    "coins": 260,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 27,
+    "age": 41,
+    "coins": 270,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 28,
+    "age": 42,
+    "coins": 280,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 29,
+    "age": 43,
+    "coins": 290,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 30,
+    "age": 44,
+    "coins": 300,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 31,
+    "age": 45,
+    "coins": 310,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 32,
+    "age": 46,
+    "coins": 320,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 33,
+    "age": 47,
+    "coins": 330,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 34,
+    "age": 48,
+    "coins": 340,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 35,
+    "age": 49,
+    "coins": 350,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 36,
+    "age": 50,
+    "coins": 360,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 37,
+    "age": 51,
+    "coins": 370,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 38,
+    "age": 52,
+    "coins": 380,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 39,
+    "age": 53,
+    "coins": 390,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 40,
+    "age": 54,
+    "coins": 400,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 41,
+    "age": 55,
+    "coins": 410,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 42,
+    "age": 56,
+    "coins": 420,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 43,
+    "age": 57,
+    "coins": 430,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 44,
+    "age": 58,
+    "coins": 440,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 45,
+    "age": 59,
+    "coins": 450,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 46,
+    "age": 60,
+    "coins": 460,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 47,
+    "age": 61,
+    "coins": 470,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 48,
+    "age": 62,
+    "coins": 480,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 49,
+    "age": 63,
+    "coins": 490,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 50,
+    "age": 64,
+    "coins": 500,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 51,
+    "age": 65,
+    "coins": 510,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 52,
+    "age": 66,
+    "coins": 520,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 53,
+    "age": 67,
+    "coins": 530,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 54,
+    "age": 68,
+    "coins": 540,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 55,
+    "age": 69,
+    "coins": 550,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 57,
+    "age": 15,
+    "coins": 570,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 58,
+    "age": 16,
+    "coins": 580,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 59,
+    "age": 17,
+    "coins": 590,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 60,
+    "age": 18,
+    "coins": 600,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 61,
+    "age": 19,
+    "coins": 610,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 62,
+    "age": 20,
+    "coins": 620,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 63,
+    "age": 21,
+    "coins": 630,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 64,
+    "age": 22,
+    "coins": 640,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 65,
+    "age": 23,
+    "coins": 650,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 66,
+    "age": 24,
+    "coins": 660,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 67,
+    "age": 25,
+    "coins": 670,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 68,
+    "age": 26,
+    "coins": 680,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 69,
+    "age": 27,
+    "coins": 690,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 70,
+    "age": 28,
+    "coins": 700,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 71,
+    "age": 29,
+    "coins": 710,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 72,
+    "age": 30,
+    "coins": 720,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 73,
+    "age": 31,
+    "coins": 730,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 74,
+    "age": 32,
+    "coins": 740,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 75,
+    "age": 33,
+    "coins": 750,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 76,
+    "age": 34,
+    "coins": 760,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 77,
+    "age": 35,
+    "coins": 770,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 78,
+    "age": 36,
+    "coins": 780,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 79,
+    "age": 37,
+    "coins": 790,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 80,
+    "age": 38,
+    "coins": 800,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 81,
+    "age": 39,
+    "coins": 810,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 82,
+    "age": 40,
+    "coins": 820,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 83,
+    "age": 41,
+    "coins": 830,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 84,
+    "age": 42,
+    "coins": 840,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 85,
+    "age": 43,
+    "coins": 850,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 86,
+    "age": 44,
+    "coins": 860,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 87,
+    "age": 45,
+    "coins": 870,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 88,
+    "age": 46,
+    "coins": 880,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 89,
+    "age": 47,
+    "coins": 890,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 90,
+    "age": 48,
+    "coins": 900,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 91,
+    "age": 49,
+    "coins": 910,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 92,
+    "age": 50,
+    "coins": 920,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 93,
+    "age": 51,
+    "coins": 930,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 94,
+    "age": 52,
+    "coins": 940,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 95,
+    "age": 53,
+    "coins": 950,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 96,
+    "age": 54,
+    "coins": 960,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 97,
+    "age": 55,
+    "coins": 970,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 98,
+    "age": 56,
+    "coins": 980,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 99,
+    "age": 57,
+    "coins": 990,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 100,
+    "age": 58,
+    "coins": 1000,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 101,
+    "age": 59,
+    "coins": 1010,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 102,
+    "age": 60,
+    "coins": 1020,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 103,
+    "age": 61,
+    "coins": 1030,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 104,
+    "age": 62,
+    "coins": 1040,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 105,
+    "age": 63,
+    "coins": 1050,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 106,
+    "age": 64,
+    "coins": 1060,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 107,
+    "age": 65,
+    "coins": 1070,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 108,
+    "age": 66,
+    "coins": 1080,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 109,
+    "age": 67,
+    "coins": 1090,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 110,
+    "age": 68,
+    "coins": 1100,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 111,
+    "age": 69,
+    "coins": 1110,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 113,
+    "age": 15,
+    "coins": 1130,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 114,
+    "age": 16,
+    "coins": 1140,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 115,
+    "age": 17,
+    "coins": 1150,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 116,
+    "age": 18,
+    "coins": 1160,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 117,
+    "age": 19,
+    "coins": 1170,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 118,
+    "age": 20,
+    "coins": 1180,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 119,
+    "age": 21,
+    "coins": 1190,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 120,
+    "age": 22,
+    "coins": 1200,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 121,
+    "age": 23,
+    "coins": 1210,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 122,
+    "age": 24,
+    "coins": 1220,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 123,
+    "age": 25,
+    "coins": 1230,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 124,
+    "age": 26,
+    "coins": 1240,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 125,
+    "age": 27,
+    "coins": 1250,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 126,
+    "age": 28,
+    "coins": 1260,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 127,
+    "age": 29,
+    "coins": 1270,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 128,
+    "age": 30,
+    "coins": 1280,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 129,
+    "age": 31,
+    "coins": 1290,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 130,
+    "age": 32,
+    "coins": 1300,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 131,
+    "age": 33,
+    "coins": 1310,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 132,
+    "age": 34,
+    "coins": 1320,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 133,
+    "age": 35,
+    "coins": 1330,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 134,
+    "age": 36,
+    "coins": 1340,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 135,
+    "age": 37,
+    "coins": 1350,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 136,
+    "age": 38,
+    "coins": 1360,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 137,
+    "age": 39,
+    "coins": 1370,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 138,
+    "age": 40,
+    "coins": 1380,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 139,
+    "age": 41,
+    "coins": 1390,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 140,
+    "age": 42,
+    "coins": 1400,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 141,
+    "age": 43,
+    "coins": 1410,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 142,
+    "age": 44,
+    "coins": 1420,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 143,
+    "age": 45,
+    "coins": 1430,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 144,
+    "age": 46,
+    "coins": 1440,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 145,
+    "age": 47,
+    "coins": 1450,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 146,
+    "age": 48,
+    "coins": 1460,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 147,
+    "age": 49,
+    "coins": 1470,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 148,
+    "age": 50,
+    "coins": 1480,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 149,
+    "age": 51,
+    "coins": 1490,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 150,
+    "age": 52,
+    "coins": 1500,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 151,
+    "age": 53,
+    "coins": 1510,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 152,
+    "age": 54,
+    "coins": 1520,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 153,
+    "age": 55,
+    "coins": 1530,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 154,
+    "age": 56,
+    "coins": 1540,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 155,
+    "age": 57,
+    "coins": 1550,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 156,
+    "age": 58,
+    "coins": 1560,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 157,
+    "age": 59,
+    "coins": 1570,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 158,
+    "age": 60,
+    "coins": 1580,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 159,
+    "age": 61,
+    "coins": 1590,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 160,
+    "age": 62,
+    "coins": 1600,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 161,
+    "age": 63,
+    "coins": 1610,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 162,
+    "age": 64,
+    "coins": 1620,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 163,
+    "age": 65,
+    "coins": 1630,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 164,
+    "age": 66,
+    "coins": 1640,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 165,
+    "age": 67,
+    "coins": 1650,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 166,
+    "age": 68,
+    "coins": 1660,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 167,
+    "age": 69,
+    "coins": 1670,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 169,
+    "age": 15,
+    "coins": 1690,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 170,
+    "age": 16,
+    "coins": 1700,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 171,
+    "age": 17,
+    "coins": 1710,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 172,
+    "age": 18,
+    "coins": 1720,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 173,
+    "age": 19,
+    "coins": 1730,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 174,
+    "age": 20,
+    "coins": 1740,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 175,
+    "age": 21,
+    "coins": 1750,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 176,
+    "age": 22,
+    "coins": 1760,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 177,
+    "age": 23,
+    "coins": 1770,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 178,
+    "age": 24,
+    "coins": 1780,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 179,
+    "age": 25,
+    "coins": 1790,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 180,
+    "age": 26,
+    "coins": 1800,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 181,
+    "age": 27,
+    "coins": 1810,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 182,
+    "age": 28,
+    "coins": 1820,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 183,
+    "age": 29,
+    "coins": 1830,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 184,
+    "age": 30,
+    "coins": 1840,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 185,
+    "age": 31,
+    "coins": 1850,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 186,
+    "age": 32,
+    "coins": 1860,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 187,
+    "age": 33,
+    "coins": 1870,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 188,
+    "age": 34,
+    "coins": 1880,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 189,
+    "age": 35,
+    "coins": 1890,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 190,
+    "age": 36,
+    "coins": 1900,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 191,
+    "age": 37,
+    "coins": 1910,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 192,
+    "age": 38,
+    "coins": 1920,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 193,
+    "age": 39,
+    "coins": 1930,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 194,
+    "age": 40,
+    "coins": 1940,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 195,
+    "age": 41,
+    "coins": 1950,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 196,
+    "age": 42,
+    "coins": 1960,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 197,
+    "age": 43,
+    "coins": 1970,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 198,
+    "age": 44,
+    "coins": 1980,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 199,
+    "age": 45,
+    "coins": 1990,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 200,
+    "age": 46,
+    "coins": 2000,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 201,
+    "age": 47,
+    "coins": 2010,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 202,
+    "age": 48,
+    "coins": 2020,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 203,
+    "age": 49,
+    "coins": 2030,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 204,
+    "age": 50,
+    "coins": 2040,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 205,
+    "age": 51,
+    "coins": 2050,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 206,
+    "age": 52,
+    "coins": 2060,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 207,
+    "age": 53,
+    "coins": 2070,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 208,
+    "age": 54,
+    "coins": 2080,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 209,
+    "age": 55,
+    "coins": 2090,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 210,
+    "age": 56,
+    "coins": 2100,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 211,
+    "age": 57,
+    "coins": 2110,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 212,
+    "age": 58,
+    "coins": 2120,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 213,
+    "age": 59,
+    "coins": 2130,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 214,
+    "age": 60,
+    "coins": 2140,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 215,
+    "age": 61,
+    "coins": 2150,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 216,
+    "age": 62,
+    "coins": 2160,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 217,
+    "age": 63,
+    "coins": 2170,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 218,
+    "age": 64,
+    "coins": 2180,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 219,
+    "age": 65,
+    "coins": 2190,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 220,
+    "age": 66,
+    "coins": 2200,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 221,
+    "age": 67,
+    "coins": 2210,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 222,
+    "age": 68,
+    "coins": 2220,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 223,
+    "age": 69,
+    "coins": 2230,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 225,
+    "age": 15,
+    "coins": 2250,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 226,
+    "age": 16,
+    "coins": 2260,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 227,
+    "age": 17,
+    "coins": 2270,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 228,
+    "age": 18,
+    "coins": 2280,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 229,
+    "age": 19,
+    "coins": 2290,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 230,
+    "age": 20,
+    "coins": 2300,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 231,
+    "age": 21,
+    "coins": 2310,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 232,
+    "age": 22,
+    "coins": 2320,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 233,
+    "age": 23,
+    "coins": 2330,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 234,
+    "age": 24,
+    "coins": 2340,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 235,
+    "age": 25,
+    "coins": 2350,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 236,
+    "age": 26,
+    "coins": 2360,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 237,
+    "age": 27,
+    "coins": 2370,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 238,
+    "age": 28,
+    "coins": 2380,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 239,
+    "age": 29,
+    "coins": 2390,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 240,
+    "age": 30,
+    "coins": 2400,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 241,
+    "age": 31,
+    "coins": 2410,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 242,
+    "age": 32,
+    "coins": 2420,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 243,
+    "age": 33,
+    "coins": 2430,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 244,
+    "age": 34,
+    "coins": 2440,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 245,
+    "age": 35,
+    "coins": 2450,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 246,
+    "age": 36,
+    "coins": 2460,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 247,
+    "age": 37,
+    "coins": 2470,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 248,
+    "age": 38,
+    "coins": 2480,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 249,
+    "age": 39,
+    "coins": 2490,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 250,
+    "age": 40,
+    "coins": 2500,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 251,
+    "age": 41,
+    "coins": 2510,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 252,
+    "age": 42,
+    "coins": 2520,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 253,
+    "age": 43,
+    "coins": 2530,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 254,
+    "age": 44,
+    "coins": 2540,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 255,
+    "age": 45,
+    "coins": 2550,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 256,
+    "age": 46,
+    "coins": 2560,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 257,
+    "age": 47,
+    "coins": 2570,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 258,
+    "age": 48,
+    "coins": 2580,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 259,
+    "age": 49,
+    "coins": 2590,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 260,
+    "age": 50,
+    "coins": 2600,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 261,
+    "age": 51,
+    "coins": 2610,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 262,
+    "age": 52,
+    "coins": 2620,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 263,
+    "age": 53,
+    "coins": 2630,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 264,
+    "age": 54,
+    "coins": 2640,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 265,
+    "age": 55,
+    "coins": 2650,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 266,
+    "age": 56,
+    "coins": 2660,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 267,
+    "age": 57,
+    "coins": 2670,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 268,
+    "age": 58,
+    "coins": 2680,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 269,
+    "age": 59,
+    "coins": 2690,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 270,
+    "age": 60,
+    "coins": 2700,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 271,
+    "age": 61,
+    "coins": 2710,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 272,
+    "age": 62,
+    "coins": 2720,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 273,
+    "age": 63,
+    "coins": 2730,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 274,
+    "age": 64,
+    "coins": 2740,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 275,
+    "age": 65,
+    "coins": 2750,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 276,
+    "age": 66,
+    "coins": 2760,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 277,
+    "age": 67,
+    "coins": 2770,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 278,
+    "age": 68,
+    "coins": 2780,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 279,
+    "age": 69,
+    "coins": 2790,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 281,
+    "age": 15,
+    "coins": 2810,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 282,
+    "age": 16,
+    "coins": 2820,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 283,
+    "age": 17,
+    "coins": 2830,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 284,
+    "age": 18,
+    "coins": 2840,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 285,
+    "age": 19,
+    "coins": 2850,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 286,
+    "age": 20,
+    "coins": 2860,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 287,
+    "age": 21,
+    "coins": 2870,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 288,
+    "age": 22,
+    "coins": 2880,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 289,
+    "age": 23,
+    "coins": 2890,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 290,
+    "age": 24,
+    "coins": 2900,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 291,
+    "age": 25,
+    "coins": 2910,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 292,
+    "age": 26,
+    "coins": 2920,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 293,
+    "age": 27,
+    "coins": 2930,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 294,
+    "age": 28,
+    "coins": 2940,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 295,
+    "age": 29,
+    "coins": 2950,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 296,
+    "age": 30,
+    "coins": 2960,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 297,
+    "age": 31,
+    "coins": 2970,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 298,
+    "age": 32,
+    "coins": 2980,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 299,
+    "age": 33,
+    "coins": 2990,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 300,
+    "age": 34,
+    "coins": 3000,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 301,
+    "age": 35,
+    "coins": 3010,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 302,
+    "age": 36,
+    "coins": 3020,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 303,
+    "age": 37,
+    "coins": 3030,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 304,
+    "age": 38,
+    "coins": 3040,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 305,
+    "age": 39,
+    "coins": 3050,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 306,
+    "age": 40,
+    "coins": 3060,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 307,
+    "age": 41,
+    "coins": 3070,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 308,
+    "age": 42,
+    "coins": 3080,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 309,
+    "age": 43,
+    "coins": 3090,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 310,
+    "age": 44,
+    "coins": 3100,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 311,
+    "age": 45,
+    "coins": 3110,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 312,
+    "age": 46,
+    "coins": 3120,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 313,
+    "age": 47,
+    "coins": 3130,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 314,
+    "age": 48,
+    "coins": 3140,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 315,
+    "age": 49,
+    "coins": 3150,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 316,
+    "age": 50,
+    "coins": 3160,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 317,
+    "age": 51,
+    "coins": 3170,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 318,
+    "age": 52,
+    "coins": 3180,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 319,
+    "age": 53,
+    "coins": 3190,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 320,
+    "age": 54,
+    "coins": 3200,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 321,
+    "age": 55,
+    "coins": 3210,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 322,
+    "age": 56,
+    "coins": 3220,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 323,
+    "age": 57,
+    "coins": 3230,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 324,
+    "age": 58,
+    "coins": 3240,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 325,
+    "age": 59,
+    "coins": 3250,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 326,
+    "age": 60,
+    "coins": 3260,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 327,
+    "age": 61,
+    "coins": 3270,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 328,
+    "age": 62,
+    "coins": 3280,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 329,
+    "age": 63,
+    "coins": 3290,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 330,
+    "age": 64,
+    "coins": 3300,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 331,
+    "age": 65,
+    "coins": 3310,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 332,
+    "age": 66,
+    "coins": 3320,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 333,
+    "age": 67,
+    "coins": 3330,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 334,
+    "age": 68,
+    "coins": 3340,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 335,
+    "age": 69,
+    "coins": 3350,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 337,
+    "age": 15,
+    "coins": 3370,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 338,
+    "age": 16,
+    "coins": 3380,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 339,
+    "age": 17,
+    "coins": 3390,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 340,
+    "age": 18,
+    "coins": 3400,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 341,
+    "age": 19,
+    "coins": 3410,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 342,
+    "age": 20,
+    "coins": 3420,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 343,
+    "age": 21,
+    "coins": 3430,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 344,
+    "age": 22,
+    "coins": 3440,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 345,
+    "age": 23,
+    "coins": 3450,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 346,
+    "age": 24,
+    "coins": 3460,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 347,
+    "age": 25,
+    "coins": 3470,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 348,
+    "age": 26,
+    "coins": 3480,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 349,
+    "age": 27,
+    "coins": 3490,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 350,
+    "age": 28,
+    "coins": 3500,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 351,
+    "age": 29,
+    "coins": 3510,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 352,
+    "age": 30,
+    "coins": 3520,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 353,
+    "age": 31,
+    "coins": 3530,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 354,
+    "age": 32,
+    "coins": 3540,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 355,
+    "age": 33,
+    "coins": 3550,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 356,
+    "age": 34,
+    "coins": 3560,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Wolf hunt opportunity"
+  },
+  {
+    "day": 357,
+    "age": 35,
+    "coins": 3570,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 358,
+    "age": 36,
+    "coins": 3580,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Witch circle sighting"
+  },
+  {
+    "day": 359,
+    "age": 37,
+    "coins": 3590,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 360,
+    "age": 38,
+    "coins": 3600,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 361,
+    "age": 39,
+    "coins": 3610,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 362,
+    "age": 40,
+    "coins": 3620,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Full moon transformation"
+  },
+  {
+    "day": 363,
+    "age": 41,
+    "coins": 3630,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  },
+  {
+    "day": 364,
+    "age": 42,
+    "coins": 3640,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": "Villager lynch patrol"
+  },
+  {
+    "day": 365,
+    "age": 43,
+    "coins": 3650,
+    "coinGain": 10,
+    "skillChanges": {
+      "Strength": 5
+    },
+    "event": null
+  }
+]
