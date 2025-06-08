@@ -10,6 +10,14 @@ const MOON_PHASES = [
     "\u{1F315}", "\u{1F316}", "\u{1F317}", "\u{1F318}"
 ];
 
+// Fallback skill data if player_result.json lacks it
+const SAMPLE_SKILLS = {
+    "Discipline": { category: "General", level: 3, xp: 40, xpToNext: 100, effect: "Speeds up skill XP gain" },
+    "Awareness": { category: "General", level: 2, xp: 30, xpToNext: 80, effect: "Improves event detection" },
+    "Tracking": { category: "Job", level: 5, xp: 120, xpToNext: 200, effect: "Improves Hunter job efficiency" },
+    "Lore Reading": { category: "Job", level: 1, xp: 20, xpToNext: 50, effect: "Unlocks story clues" }
+};
+
 let logs = [];
 let activeJob = "";
 let index = 0;
@@ -25,37 +33,56 @@ function pulse(element) {
 
 function $(id) { return document.getElementById(id); }
 
-function createSkillBar(skill) {
+function createSkillCard(name, data, parent) {
     const container = document.createElement('div');
     container.className = 'stat';
-    container.dataset.skill = skill;
+    container.dataset.skill = name;
+    if (data.effect) container.title = data.effect;
 
     const label = document.createElement('div');
     label.className = 'label';
-    label.innerHTML = `${skill}: <span class="num">0</span>`;
+    const levelSpan = document.createElement('span');
+    levelSpan.className = 'level';
+    levelSpan.textContent = `Lv ${data.level}`;
+    label.textContent = name + ' ';
+    label.appendChild(levelSpan);
 
     const progress = document.createElement('div');
     progress.className = 'progress';
     const bar = document.createElement('div');
     bar.className = 'bar';
+    bar.style.width = Math.min(100, (data.xp / data.xpToNext) * 100) + '%';
     progress.appendChild(bar);
 
     container.appendChild(label);
     container.appendChild(progress);
-    $('skills').appendChild(container);
+    parent.appendChild(container);
 }
 
+function renderSkills(skills) {
+    const general = $('generalSkillsList');
+    const job = $('jobSkillsList');
+    if (!general || !job) return;
+    general.innerHTML = '';
+    job.innerHTML = '';
+
+    Object.entries(skills).forEach(([name, data]) => {
+        const parent = data.category && data.category.toLowerCase() === 'general' ? general : job;
+        createSkillCard(name, data, parent);
+    });
+}
+
+// legacy function for numeric stat updates
 function updateSkill(skill, value) {
     let container = document.querySelector(`[data-skill="${skill}"]`);
-    if (!container) {
-        createSkillBar(skill);
-        container = document.querySelector(`[data-skill="${skill}"]`);
-    }
+    if (!container) return;
     const num = container.querySelector('.num');
     const bar = container.querySelector('.bar');
-    num.textContent = value;
-    bar.style.width = Math.min(value, 100) + '%';
-    pulse(bar);
+    if (num) num.textContent = value;
+    if (bar) {
+        bar.style.width = Math.min(value, 100) + '%';
+        pulse(bar);
+    }
 }
 
 function showEntry(entry) {
@@ -122,13 +149,22 @@ function setupTabs() {
 Promise.all([
     fetch('player_result.json', {cache: 'no-store'})
         .then(r => r.json())
-        .catch(() => [
-        {day:1, age:15, coins:10, coinGain:10, skillChanges:{"Strength":5}, event:"Wolf hunt opportunity"},
-        {day:2, age:16, coins:20, coinGain:10, skillChanges:{"Strength":5}, event:null}
-    ]),
+        .catch(() => ({
+            logs: [
+                {day:1, age:15, coins:10, coinGain:10, skillChanges:{"Strength":5}, event:"Wolf hunt opportunity"},
+                {day:2, age:16, coins:20, coinGain:10, skillChanges:{"Strength":5}, event:null}
+            ],
+            skills: SAMPLE_SKILLS
+        })),
     fetch('../player.json').then(r => r.json()).catch(() => ({activeJob:'Woodcutter'}))
 ]).then(([data, player]) => {
-    logs = data;
+    if (Array.isArray(data)) {
+        logs = data;
+        renderSkills(SAMPLE_SKILLS);
+    } else {
+        logs = data.logs || [];
+        renderSkills(data.skills || SAMPLE_SKILLS);
+    }
     playerState = player;
     activeJob = player.activeJob || 'Unknown';
     $('repVillage').textContent = player.repVillage;
