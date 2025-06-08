@@ -1,0 +1,9 @@
+body.day {
+    background: linear-gradient(to bottom, #e0f7fa, #b2ebf2), url('assets/forest-day.png') no-repeat bottom center / cover;
+    transition: background 1s ease;
+}
+
+body.night {
+    background: linear-gradient(to bottom, #0b0f16, #121212), url('assets/forest-silhouette.png') no-repeat bottom center / cover;
+    transition: background 1s ease;
+}
