@@ -7,9 +7,20 @@
 </head>
 <body>
     <h1>Lupus Ascendancy — Ancestral Simulation</h1>
-    <div id="log"></div>
-    <button id="next">Next Day</button>
+    <div id="info">
+        Day <span id="day">0</span> — Age <span id="age">0</span><br>
+        Job: <span id="job">Loading...</span>
+    </div>
+    <div id="coins" class="stat">
+        <div class="label">Coins: <span id="coinNum">0</span></div>
+        <div class="progress"><div id="coinBar" class="bar"></div></div>
+    </div>
+    <div id="skills"></div>
+    <div id="event">
+        <div id="eventName"></div>
+        <div id="eventFlavor" class="flavor"></div>
+    </div>
+    <div id="moon"></div>
     <script src="script.js"></script>
 </body>
 </html>
-
