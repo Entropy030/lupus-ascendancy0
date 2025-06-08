@@ -14,6 +14,7 @@ let logs = [];
 let activeJob = "";
 let index = 0;
 const totals = {};
+let playerState = {};
 
 function pulse(element) {
     element.classList.remove('pulse');
@@ -73,13 +74,18 @@ function showEntry(entry) {
         }
     }
 
-    const eventSection = $('event');
+    const strengthTotal = totals['Strength'] || 0;
+    $('strengthNum').textContent = strengthTotal;
+    $('strengthBar').style.width = Math.min(strengthTotal, 100) + '%';
+    pulse($('strengthBar'));
+
+    const eventSection = $('eventPanel');
     if (entry.event) {
-        $('eventName').textContent = entry.event;
+        $('nightTitle').textContent = `Night ${entry.day}`;
         $('eventFlavor').textContent = EVENT_FLAVOR[entry.event] || '';
         eventSection.classList.add('show');
     } else {
-        $('eventName').textContent = '';
+        $('nightTitle').textContent = '';
         $('eventFlavor').textContent = '';
         eventSection.classList.remove('show');
     }
@@ -99,6 +105,20 @@ function startLoop() {
     setInterval(nextDay, 1500);
 }
 
+function setupTabs() {
+    const buttons = document.querySelectorAll('nav button');
+    const sections = document.querySelectorAll('main > section');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            sections.forEach(sec => sec.classList.remove('active'));
+            btn.classList.add('active');
+            const target = document.getElementById(btn.dataset.tab);
+            if (target) target.classList.add('active');
+        });
+    });
+}
+
 Promise.all([
     fetch('player_result.json').then(r => r.json()).catch(() => [
         {day:1, age:15, coins:10, coinGain:10, skillChanges:{"Strength":5}, event:"Wolf hunt opportunity"},
@@ -107,6 +127,12 @@ Promise.all([
     fetch('../player.json').then(r => r.json()).catch(() => ({activeJob:'Woodcutter'}))
 ]).then(([data, player]) => {
     logs = data;
+    playerState = player;
     activeJob = player.activeJob || 'Unknown';
+    $('repVillage').textContent = player.repVillage;
+    $('repWolf').textContent = player.repWolf;
+    $('curseLevel').textContent = player.curseLevel;
+    $('rebirths').textContent = player.rebirths;
+    setupTabs();
     startLoop();
 });
