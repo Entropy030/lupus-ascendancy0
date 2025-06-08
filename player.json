@@ -1,0 +1,18 @@
+{
+  "age": 14,
+  "coins": 0,
+  "skills": {
+    "Tracking": 0,
+    "Endurance": 0,
+    "Deception": 0,
+    "Lycan Control": 0,
+    "Claw Mastery": 0,
+    "Dark Rituals": 0
+  },
+  "activeJob": null,
+  "repVillage": 0,
+  "repWolf": 0,
+  "curseLevel": 0,
+  "rebirths": 0,
+  "prestigeUnlocked": false
+}

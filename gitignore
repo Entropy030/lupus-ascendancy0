@@ -1,0 +1,18 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Editor files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+
+# Runtime files
+*.log
+*.tmp
+
+# Environments
+.env
+.venv/

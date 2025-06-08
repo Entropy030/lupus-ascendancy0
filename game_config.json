@@ -1,0 +1,214 @@
+{
+  "gameTitle": "Lupus Ascendancy",
+  "theme": "Werewolf life simulator with progressive transformation and prestige mechanics.",
+  "ages": {
+    "startAge": 14,
+    "rebirthAge": 70,
+    "maxAge": 200
+  },
+  "prestige": {
+    "name": "Moonblood Rebirth",
+    "effects": [
+      "XP multiplier",
+      "Unlocks new forms",
+      "Reputation reset"
+    ],
+    "finalForm": "Moonborne Entity"
+  },
+  "dayNightCycle": true,
+  "reputation": {
+    "repVillage": {
+      "description": "Measures trust among humans based on jobs, rituals, and interactions",
+      "influences": [
+        "Inquisitor jobs",
+        "Healing rituals",
+        "Protecting villagers"
+      ]
+    },
+    "repWolf": {
+      "description": "Measures respect among the werewolf pack based on feral progression, curse alignment, and night behavior",
+      "influences": [
+        "Transformations",
+        "Dark rituals",
+        "Attacking villagers"
+      ]
+    },
+    "examples": [
+      {
+        "action": "Take job as Inquisitor",
+        "repVillage": "+10",
+        "repWolf": "-5"
+      },
+      {
+        "action": "Use Dark Rituals",
+        "repVillage": "-10",
+        "repWolf": "+15"
+      },
+      {
+        "action": "Survive Full Moon Transformation",
+        "repVillage": "-5",
+        "repWolf": "+10"
+      },
+      {
+        "action": "Kill Inquisitor as Alpha",
+        "repVillage": "-15",
+        "repWolf": "+20"
+      }
+    ],
+    "requirements": [
+      {
+        "role": "Witchfinder General",
+        "repVillage": ">= 40",
+        "repWolf": "<= 10"
+      },
+      {
+        "role": "Alpha",
+        "repWolf": ">= 50",
+        "skills": [
+          "Lycan Control >= 20"
+        ]
+      },
+      {
+        "role": "Moonborne Entity",
+        "repVillage": ">= 30",
+        "repWolf": ">= 60",
+        "curseLevel": ">= 100"
+      }
+    ]
+  },
+  "jobs": [
+    {
+      "name": "Woodcutter",
+      "tier": 1,
+      "type": "human",
+      "requires": [],
+      "produces": [
+        "coins",
+        "strengthXP"
+      ]
+    },
+    {
+      "name": "Butcher",
+      "tier": 1,
+      "type": "human",
+      "requires": [
+        "Woodcutter"
+      ],
+      "produces": [
+        "coins",
+        "bloodXP"
+      ]
+    },
+    {
+      "name": "Growling Pup",
+      "tier": 1,
+      "type": "werewolf",
+      "requires": [
+        "Cursed"
+      ],
+      "produces": [
+        "feralXP"
+      ]
+    },
+    {
+      "name": "Hunter",
+      "tier": 2,
+      "type": "human",
+      "requires": [
+        "Butcher"
+      ],
+      "produces": [
+        "coins",
+        "trackingXP"
+      ]
+    },
+    {
+      "name": "Moon-Touched",
+      "tier": 2,
+      "type": "werewolf",
+      "requires": [
+        "Growling Pup"
+      ],
+      "produces": [
+        "moonXP"
+      ]
+    },
+    {
+      "name": "Inquisitor",
+      "tier": 4,
+      "type": "human",
+      "requires": [
+        "Priest",
+        "Hunter"
+      ],
+      "produces": [
+        "holyXP"
+      ]
+    },
+    {
+      "name": "Alpha",
+      "tier": 4,
+      "type": "werewolf",
+      "requires": [
+        "Night Howler"
+      ],
+      "produces": [
+        "dominanceXP"
+      ]
+    },
+    {
+      "name": "Witchfinder General",
+      "tier": 5,
+      "type": "human",
+      "requires": [
+        "Inquisitor"
+      ],
+      "produces": [
+        "fearXP"
+      ]
+    },
+    {
+      "name": "Moonlord",
+      "tier": 5,
+      "type": "werewolf",
+      "requires": [
+        "Alpha"
+      ],
+      "produces": [
+        "spiritXP"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Tracking",
+      "category": "Survival"
+    },
+    {
+      "name": "Endurance",
+      "category": "Survival"
+    },
+    {
+      "name": "Deception",
+      "category": "Social"
+    },
+    {
+      "name": "Lycan Control",
+      "category": "Supernatural"
+    },
+    {
+      "name": "Claw Mastery",
+      "category": "Combat"
+    },
+    {
+      "name": "Dark Rituals",
+      "category": "Supernatural"
+    }
+  ],
+  "nightEvents": [
+    "Villager lynch patrol",
+    "Wolf hunt opportunity",
+    "Witch circle sighting",
+    "Full moon transformation"
+  ]
+}
