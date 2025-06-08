@@ -120,7 +120,9 @@ function setupTabs() {
 }
 
 Promise.all([
-    fetch('player_result.json').then(r => r.json()).catch(() => [
+    fetch('player_result.json', {cache: 'no-store'})
+        .then(r => r.json())
+        .catch(() => [
         {day:1, age:15, coins:10, coinGain:10, skillChanges:{"Strength":5}, event:"Wolf hunt opportunity"},
         {day:2, age:16, coins:20, coinGain:10, skillChanges:{"Strength":5}, event:null}
     ]),
