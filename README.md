@@ -17,3 +17,5 @@ You begin as a simple villager—or cursed soul—and evolve across lifetimes to
 
 ### Deployment
 This game can be hosted using GitHub Pages or run via Python CLI tools.
+### Web UI
+The `web/` folder hosts a simple viewer built with HTML, CSS, and JavaScript. It runs an automated loop to display each day from `player_result.json`, and includes an image placeholder located at `web/assets/lupus_ui_mockup.png`.
