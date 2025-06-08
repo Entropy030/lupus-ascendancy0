@@ -1,5 +1,6 @@
 import json
 import random
+import sys
 
 # Load game configuration and player state
 with open('game_config.json', 'r') as f:
@@ -111,9 +112,12 @@ def simulate_day(day, player):
 if __name__ == '__main__':
     # Example simulation: run until prestige unlocked or 365 days
     day = 1
-    while day <= 365 and not player.get('prestigeUnlocked'):
-        simulate_day(day, player)
-        day += 1
+    try:
+        while day <= 365 and not player.get('prestigeUnlocked'):
+            simulate_day(day, player)
+            day += 1
+    except BrokenPipeError:
+        sys.exit(0)
 
     # Save results for web viewer
     with open('web/player_result.json', 'w') as out:
