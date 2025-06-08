@@ -1,28 +1,42 @@
 :root {
-    --bg-color: linear-gradient(to bottom, #0b0f16 0%, #121212 100%);
+    --bg-color: #0b0f16;
     --text-color: #f0e8dc;
     --accent: #a4b97f;
     --card-bg: rgba(255, 255, 255, 0.04);
     --font-main: 'Georgia', serif;
-    --font-size-base: 1rem;
-    --font-size-large: 1.25rem;
     --moon-glow: 0 0 12px rgba(255, 225, 160, 0.4);
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    background: var(--bg-color);
+    margin: 0;
+    padding: 3vh 4vw;
+    background: var(--bg-color) url('assets/forest-silhouette.png') no-repeat center bottom / cover;
     color: var(--text-color);
     font-family: var(--font-main);
-    padding: 3vh 4vw;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.03), rgba(0,0,0,0.9)),
+                url('assets/fog-overlay.png') repeat-x bottom;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 0;
+}
+
+header, main, footer {
+    position: relative;
+    z-index: 1;
 }
 
 header {
@@ -69,7 +83,6 @@ main {
 
 .stat .label {
     margin-bottom: 0.3rem;
-    font-size: var(--font-size-base);
 }
 
 .progress {
@@ -102,7 +115,6 @@ nav button {
     border-radius: 6px;
     color: var(--text-color);
     font-family: var(--font-main);
-    font-size: var(--font-size-base);
     transition: background 0.3s, border 0.3s;
 }
 
@@ -123,7 +135,7 @@ section.active {
     min-height: 6vh;
     transition: opacity 0.6s ease;
     opacity: 0;
-    font-size: var(--font-size-large);
+    font-size: 1.25rem;
 }
 
 #eventPanel.show {
