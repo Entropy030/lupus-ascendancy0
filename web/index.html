@@ -3,31 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lupus Ascendancy — Idle Simulation</title>
+    <title>Lupus Ascendancy — Idle Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
+        <div id="moonIcon" class="moon-phase">🌑</div>
         <h1>Lupus Ascendancy</h1>
-        <div id="moonIcon"></div>
     </header>
 
     <main>
-        <section id="stats">
-            <div id="dayDisplay">Day <span id="day">0</span></div>
-            <div id="ageDisplay">Age <span id="age">0</span></div>
-            <div id="coinDisplay" class="stat">
-                <div class="label">Coins: <span id="coinNum">0</span></div>
+        <div id="playerCard" class="card">
+            <div>Day <span id="day">0</span> — Age <span id="age">0</span></div>
+            <div id="coinStat" class="stat">
+                <div class="label">🟡 Coins: <span id="coinNum">0</span></div>
                 <div class="progress"><div id="coinBar" class="bar"></div></div>
             </div>
-            <div id="jobDisplay">Job: <span id="job">Loading...</span></div>
+            <div id="jobDisplay">🪓 <span id="job">Loading...</span></div>
+            <div id="strengthStat" class="stat">
+                <div class="label">Strength: <span id="strengthNum">0</span></div>
+                <div class="progress"><div id="strengthBar" class="bar"></div></div>
+            </div>
+        </div>
+
+        <nav>
+            <button data-tab="stats" class="active">Stats</button>
+            <button data-tab="skills">Skills</button>
+            <button data-tab="events">Events</button>
+            <button data-tab="lore">Lore</button>
+        </nav>
+
+        <section id="stats" class="active">
+            <div id="repCard" class="card">
+                <div>Village Rep: <span id="repVillage">0</span></div>
+                <div>Wolf Rep: <span id="repWolf">0</span></div>
+                <div>Curse Level: <span id="curseLevel">0</span></div>
+                <div>Rebirths: <span id="rebirths">0</span></div>
+            </div>
         </section>
 
-        <section id="skills"></section>
+        <section id="skills">
+            <div id="skillsList"></div>
+        </section>
 
-        <section id="event">
-            <div id="eventName"></div>
-            <div id="eventFlavor" class="flavor"></div>
+        <section id="events">
+            <div id="eventPanel" class="card">
+                <div id="nightTitle"></div>
+                <div id="eventFlavor"></div>
+            </div>
+        </section>
+
+        <section id="lore">
+            <p>Ancient tales whisper through the trees...</p>
         </section>
     </main>
 
