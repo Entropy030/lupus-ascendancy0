@@ -1,24 +1,28 @@
 :root {
-    --bg-color: #0b0f16;
+    --bg-color: linear-gradient(to bottom, #0b0f16 0%, #121212 100%);
     --text-color: #f0e8dc;
     --accent: #a4b97f;
-    --card-bg: rgba(255,255,255,0.05);
+    --card-bg: rgba(255, 255, 255, 0.04);
     --font-main: 'Georgia', serif;
+    --font-size-base: 1rem;
+    --font-size-large: 1.25rem;
+    --moon-glow: 0 0 12px rgba(255, 225, 160, 0.4);
 }
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    padding: 2vh 4vw;
     background: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-main);
-    min-height: 100vh;
+    padding: 3vh 4vw;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -26,53 +30,53 @@ header {
     margin-bottom: 2vh;
 }
 
-header h1 {
-    font-size: 8vw;
-    margin: 0;
-    font-weight: 400;
-    text-shadow: 0 0 0.5rem rgba(0,0,0,0.6);
-}
-
 #moonIcon {
-    font-size: 10vw;
-    line-height: 1;
+    font-size: 4rem;
+    animation: rotateMoon 30s linear infinite;
+    text-shadow: var(--moon-glow);
+    margin-bottom: 0.5rem;
 }
 
-.moon-phase {
-    animation: rotateMoon 20s linear infinite;
+header h1 {
+    font-size: 2.2rem;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    font-weight: 400;
 }
 
 @keyframes rotateMoon {
-    from { transform: rotate(0); }
-    to { transform: rotate(360deg); }
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
 }
 
 main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2vh;
-    margin-top: 2vh;
+    gap: 1.5rem;
+    margin-top: 1rem;
 }
 
 .card {
     background: var(--card-bg);
-    border-radius: 1rem;
-    padding: 2vh 4vw;
-    margin-bottom: 2vh;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
 }
 
+.stat {
+    margin-bottom: 1rem;
+}
 
 .stat .label {
-    margin-bottom: 0.5vh;
+    margin-bottom: 0.3rem;
+    font-size: var(--font-size-base);
 }
 
 .progress {
-    width: 100%;
-    background: rgba(255,255,255,0.15);
-    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    height: 1rem;
+    border-radius: 0.5rem;
     overflow: hidden;
-    height: 1.2rem;
 }
 
 .bar {
@@ -82,37 +86,28 @@ main {
     transition: width 1s ease;
 }
 
-.pulse {
-    animation: pulse 0.6s ease;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-
 nav {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 2vh;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 100%;
+    gap: 0.5rem;
 }
 
 nav button {
     flex: 1;
+    padding: 0.75rem;
     background: var(--card-bg);
-    border: none;
+    border: 1px solid transparent;
+    border-radius: 6px;
     color: var(--text-color);
     font-family: var(--font-main);
-    padding: 1rem 0;
-    margin: 0 0.5vw;
-    border-radius: 0.5rem;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
+    transition: background 0.3s, border 0.3s;
 }
 
 nav button.active {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.07);
     border: 1px solid var(--accent);
 }
 
@@ -125,9 +120,10 @@ section.active {
 }
 
 #eventPanel {
-    min-height: 8vh;
-    transition: opacity 0.5s;
+    min-height: 6vh;
+    transition: opacity 0.6s ease;
     opacity: 0;
+    font-size: var(--font-size-large);
 }
 
 #eventPanel.show {
@@ -136,12 +132,14 @@ section.active {
 
 footer {
     text-align: center;
-    opacity: 0.6;
-    font-size: 0.8rem;
-    padding-top: 2vh;
+    margin-top: auto;
+    opacity: 0.5;
+    font-size: 0.75rem;
+    padding: 1.5rem 0 0.5rem;
 }
 
-@media (min-width: 600px) {
-    header h1 { font-size: 2.5rem; }
+@media (max-width: 768px) {
+    header h1 { font-size: 1.75rem; }
     #moonIcon { font-size: 3rem; }
+    nav button { font-size: 0.9rem; }
 }
