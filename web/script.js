@@ -5,12 +5,22 @@ const EVENT_FLAVOR = {
     "Full moon transformation": "Your bones ache and twist beneath the silver light."
 };
 
-const MOON_PHASES = ["\u{1F311}","\u{1F312}","\u{1F313}","\u{1F314}","\u{1F315}","\u{1F316}","\u{1F317}","\u{1F318}"];
+const MOON_PHASES = [
+    "\u{1F311}", "\u{1F312}", "\u{1F313}", "\u{1F314}",
+    "\u{1F315}", "\u{1F316}", "\u{1F317}", "\u{1F318}"
+];
 
 let logs = [];
 let activeJob = "";
 let index = 0;
 const totals = {};
+
+function pulse(element) {
+    element.classList.remove('pulse');
+    // force reflow to restart animation
+    void element.offsetWidth;
+    element.classList.add('pulse');
+}
 
 function $(id) { return document.getElementById(id); }
 
@@ -44,6 +54,7 @@ function updateSkill(skill, value) {
     const bar = container.querySelector('.bar');
     num.textContent = value;
     bar.style.width = Math.min(value, 100) + '%';
+    pulse(bar);
 }
 
 function showEntry(entry) {
@@ -53,6 +64,7 @@ function showEntry(entry) {
 
     $('coinNum').textContent = entry.coins;
     $('coinBar').style.width = Math.min(entry.coins, 100) + '%';
+    pulse($('coinBar'));
 
     if (entry.skillChanges) {
         for (const [skill, gain] of Object.entries(entry.skillChanges)) {
@@ -61,16 +73,19 @@ function showEntry(entry) {
         }
     }
 
+    const eventSection = $('event');
     if (entry.event) {
         $('eventName').textContent = entry.event;
         $('eventFlavor').textContent = EVENT_FLAVOR[entry.event] || '';
+        eventSection.classList.add('show');
     } else {
         $('eventName').textContent = '';
         $('eventFlavor').textContent = '';
+        eventSection.classList.remove('show');
     }
 
     const phase = MOON_PHASES[entry.day % MOON_PHASES.length];
-    $('moon').textContent = phase;
+    $('moonIcon').textContent = phase;
 }
 
 function nextDay() {

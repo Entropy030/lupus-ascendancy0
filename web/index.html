@@ -2,25 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lupus Ascendancy — Ancestral Simulation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lupus Ascendancy — Idle Simulation</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Lupus Ascendancy — Ancestral Simulation</h1>
-    <div id="info">
-        Day <span id="day">0</span> — Age <span id="age">0</span><br>
-        Job: <span id="job">Loading...</span>
-    </div>
-    <div id="coins" class="stat">
-        <div class="label">Coins: <span id="coinNum">0</span></div>
-        <div class="progress"><div id="coinBar" class="bar"></div></div>
-    </div>
-    <div id="skills"></div>
-    <div id="event">
-        <div id="eventName"></div>
-        <div id="eventFlavor" class="flavor"></div>
-    </div>
-    <div id="moon"></div>
+    <header>
+        <h1>Lupus Ascendancy</h1>
+        <div id="moonIcon"></div>
+    </header>
+
+    <main>
+        <section id="stats">
+            <div id="dayDisplay">Day <span id="day">0</span></div>
+            <div id="ageDisplay">Age <span id="age">0</span></div>
+            <div id="coinDisplay" class="stat">
+                <div class="label">Coins: <span id="coinNum">0</span></div>
+                <div class="progress"><div id="coinBar" class="bar"></div></div>
+            </div>
+            <div id="jobDisplay">Job: <span id="job">Loading...</span></div>
+        </section>
+
+        <section id="skills"></section>
+
+        <section id="event">
+            <div id="eventName"></div>
+            <div id="eventFlavor" class="flavor"></div>
+        </section>
+    </main>
+
+    <footer>
+        <span>v0.1 — Lupus Ascendancy</span>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
