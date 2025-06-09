@@ -140,6 +140,10 @@ section.active {
     opacity: 1;
 }
 
+.skill-section {
+    margin-bottom: 1rem;
+}
+
 footer {
     text-align: center;
     margin-top: auto;
