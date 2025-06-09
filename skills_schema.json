@@ -1,0 +1,42 @@
+{
+  "Discipline": {
+    "category": "General",
+    "level": 0,
+    "xp": 0,
+    "xpToNext": 100,
+    "legacyMax": 50,
+    "effect": "Speeds up skill XP gain."
+  },
+  "Awareness": {
+    "category": "General",
+    "level": 0,
+    "xp": 0,
+    "xpToNext": 60,
+    "legacyMax": 30,
+    "effect": "Reveals hidden event options."
+  },
+  "Tracking": {
+    "category": "Wolf",
+    "level": 0,
+    "xp": 0,
+    "xpToNext": 160,
+    "legacyMax": 20,
+    "effect": "Boosts predatory skill triggers."
+  },
+  "Lore Reading": {
+    "category": "Human",
+    "level": 0,
+    "xp": 0,
+    "xpToNext": 40,
+    "legacyMax": 40,
+    "effect": "Unlocks deeper lore entries."
+  },
+  "Predation": {
+    "category": "Wolf",
+    "level": 0,
+    "xp": 0,
+    "xpToNext": 120,
+    "legacyMax": 10,
+    "effect": "Increases damage to villagers at night."
+  }
+}
