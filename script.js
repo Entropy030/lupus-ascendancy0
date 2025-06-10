@@ -11,14 +11,6 @@ const MOON_PHASES = [
     "\u{1F315}", "\u{1F316}", "\u{1F317}", "\u{1F318}"
 ];
 
-// Fallback skill data if player_result.json lacks it
-const SAMPLE_SKILLS = {
-    "Discipline": { category: "General", level: 3, xp: 40, xpToNext: 100, effect: "Speeds up skill XP gain" },
-    "Awareness": { category: "General", level: 2, xp: 30, xpToNext: 80, effect: "Improves event detection" },
-    "Tracking": { category: "Job", level: 5, xp: 120, xpToNext: 200, effect: "Improves Hunter job efficiency" },
-    "Lore Reading": { category: "Job", level: 1, xp: 20, xpToNext: 50, effect: "Unlocks story clues" }
-};
-
 let logs = [];
 let activeJob = "";
 let playerState = {};
@@ -36,38 +28,57 @@ function $(id) {
     return document.getElementById(id);
 }
 
-function createSkillBar(skill) {
-    const container = document.createElement('div');
-    container.className = 'stat';
-    container.dataset.skill = skill;
+function renderSkillCard(name, skill) {
+    const card = document.createElement('div');
+    card.className = 'card skill-card';
+    if (name === activeSkill) {
+        card.classList.add('active-skill');
+    }
+
+    card.title = skill.effect;
+    card.onclick = () => {
+        activeSkill = name;
+        renderSkills(sampleSkills); // re-render highlight
+        console.log(`Now training: ${name}`);
+    };
 
     const label = document.createElement('div');
-    label.className = 'label';
-    label.innerHTML = `${skill}: <span class="num">0</span>`;
+    label.className = 'progress-label';
+    label.innerHTML = `<span>${name} (Lv ${skill.level})</span><span>${skill.xp}/${skill.xpToNext}</span>`;
 
-    const progress = document.createElement('div');
-    progress.className = 'progress';
-    const bar = document.createElement('div');
-    bar.className = 'bar';
-    progress.appendChild(bar);
+    const barContainer = document.createElement('div');
+    barContainer.className = 'progress-bar';
+    barContainer.style.setProperty('--progress', `${(skill.xp / skill.xpToNext) * 100}%`);
 
-    container.appendChild(label);
-    container.appendChild(progress);
-    $('skills').appendChild(container);
+    card.appendChild(label);
+    card.appendChild(barContainer);
+    return card;
 }
 
-function updateSkill(skill, value) {
-    let container = document.querySelector(`[data-skill="${skill}"]`);
-    if (!container) {
-        createSkillBar(skill);
-        container = document.querySelector(`[data-skill="${skill}"]`);
+function renderSkills(skills) {
+    const generalContainer = document.getElementById('general-skills');
+    const jobContainer = document.getElementById('job-skills');
+    if (!generalContainer || !jobContainer) return;
+
+    generalContainer.innerHTML = '';
+    jobContainer.innerHTML = '';
+
+    for (const [name, skill] of Object.entries(skills)) {
+        const card = renderSkillCard(name, skill);
+        if (skill.category === 'General') {
+            generalContainer.appendChild(card);
+        } else {
+            jobContainer.appendChild(card);
+        }
     }
-    const num = container.querySelector('.num');
-    const bar = container.querySelector('.bar');
-    num.textContent = value;
-    bar.style.width = Math.min(value, 100) + '%';
-    pulse(bar);
 }
+
+const sampleSkills = {
+    "Discipline": { category: "General", level: 3, xp: 40, xpToNext: 100, effect: "Speeds up skill XP gain." },
+    "Awareness": { category: "General", level: 2, xp: 20, xpToNext: 60, effect: "Reveals hidden event options." },
+    "Tracking": { category: "Job", level: 4, xp: 80, xpToNext: 160, effect: "Boosts Hunter job efficiency." },
+    "Lore Reading": { category: "Job", level: 1, xp: 10, xpToNext: 40, effect: "Unlocks hidden lore faster." }
+};
 
 function showEntry(entry) {
     $('day').textContent = entry.day;
@@ -152,20 +163,21 @@ function setupTabs() {
 
 Promise.all([
     fetch('player_result.json', {cache: 'no-store'})
-        .then(r => r.json())
+        .then(r => r.ok ? r.json() : Promise.reject())
         .catch(() => [
-        {day:1, age:15, coins:10, coinGain:10, skillChanges:{"Strength":5}, event:"Wolf hunt opportunity"},
-        {day:2, age:16, coins:20, coinGain:10, skillChanges:{"Strength":5}, event:null}
-    ]),
-    fetch('../player.json').then(r => r.json()).catch(() => ({activeJob:'Woodcutter'}))
+            {day:1, age:15, coins:10, coinGain:10, skillChanges:{"Discipline":2}, event:"Wolf hunt opportunity"},
+            {day:2, age:16, coins:20, coinGain:10, skillChanges:{"Discipline":2}, event:null},
+            {day:3, age:17, coins:30, coinGain:10, skillChanges:{"Discipline":2}, event:null}
+        ]),
+    fetch('../player.json').then(r => r.json()).catch(() => ({
+        activeJob: 'Woodcutter',
+        repVillage: 0,
+        repWolf: 0,
+        curseLevel: 0,
+        rebirths: 0
+    }))
 ]).then(([data, player]) => {
-    if (Array.isArray(data)) {
-        logs = data;
-        renderSkills(SAMPLE_SKILLS);
-    } else {
-        logs = data.logs || [];
-        renderSkills(data.skills || SAMPLE_SKILLS);
-    }
+    logs = data;
     playerState = player;
     activeJob = player.activeJob || 'Unknown';
     $('repVillage').textContent = player.repVillage;
