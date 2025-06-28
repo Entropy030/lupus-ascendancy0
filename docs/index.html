@@ -4,69 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lupus Ascendancy — Idle Game</title>
+    <!-- Single stylesheet for all styles -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="moon_theme.css">
 </head>
-<body class="day"> <!-- Default class; will be toggled -->
+<body class="night"> <!-- Default to night theme; JS will manage this -->
     <header>
-        <div id="moonIcon" class="moon-phase">🌑</div>
+        <div id="moonIcon">🌑</div>
         <h1>Lupus Ascendancy</h1>
     </header>
 
     <main>
+        <!-- Player Stats Card -->
         <div id="playerCard" class="card">
             <div>Day <span id="day">0</span> — Age <span id="age">0</span></div>
+            <div id="jobDisplay">🪓 Job: <span id="job">Loading...</span></div>
             <div id="coinStat" class="stat">
                 <div class="label">🟡 Coins: <span id="coinNum">0</span></div>
                 <div class="progress"><div id="coinBar" class="bar"></div></div>
             </div>
-            <div id="jobDisplay">🪓 <span id="job">Loading...</span></div>
-            <div id="strengthStat" class="stat">
-                <div class="label">Strength: <span id="strengthNum">0</span></div>
-                <div class="progress"><div id="strengthBar" class="bar"></div></div>
-            </div>
         </div>
 
+        <!-- Tab Navigation -->
         <nav>
             <button data-tab="stats" class="active">Stats</button>
             <button data-tab="skills">Skills</button>
+            <!-- New Jobs Tab Button -->
+            <button data-tab="jobs">Jobs</button>
             <button data-tab="events">Events</button>
             <button data-tab="lore">Lore</button>
         </nav>
 
+        <!-- Stats Tab -->
         <section id="stats" class="active">
             <div id="repCard" class="card">
+                <h2>Reputation</h2>
                 <div>Village Rep: <span id="repVillage">0</span></div>
                 <div>Wolf Rep: <span id="repWolf">0</span></div>
+                <br>
+                <h2>Progression</h2>
                 <div>Curse Level: <span id="curseLevel">0</span></div>
                 <div>Rebirths: <span id="rebirths">0</span></div>
             </div>
         </section>
 
+        <!-- Skills Tab -->
         <section id="skills">
             <h2>General Skills</h2>
-<div id="general-skills" class="skill-section"></div>
-<h2>Job-Specific Skills</h2>
-<div id="job-skills" class="skill-section"></div>
+            <div id="general-skills" class="skill-section"></div>
+            
+            <h2>Human Skills</h2>
+            <div id="human-skills" class="skill-section"></div>
+
+            <h2>Wolf Skills</h2>
+            <div id="wolf-skills" class="skill-section"></div>
+            
+            <h2>Job Skills</h2>
+            <div id="job-skills" class="skill-section"></div>
         </section>
 
+        <!-- New Jobs Tab Section -->
+        <section id="jobs">
+            <!-- Job cards will be dynamically inserted here by script.js -->
+        </section>
+
+        <!-- Events Tab -->
         <section id="events">
             <div id="eventPanel" class="card">
-                <div id="nightTitle"></div>
-                <div id="eventFlavor"></div>
+                <h2 id="nightTitle"></h2>
+                <p id="eventFlavor"></p>
             </div>
         </section>
 
+        <!-- Lore Tab -->
         <section id="lore">
-            <p>Ancient tales whisper through the trees...</p>
+            <div class="card">
+                <p>Ancient tales whisper through the trees, waiting to be discovered...</p>
+            </div>
         </section>
     </main>
 
     <footer>
-        <span>v0.1 — Lupus Ascendancy</span>
+        <span>v0.2 — Interactive</span>
     </footer>
 
-    <script src="moon_theme.js" defer></script>
+    <!-- Single script for all frontend logic -->
     <script src="script.js" defer></script>
 </body>
 </html>
