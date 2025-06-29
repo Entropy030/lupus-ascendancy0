@@ -42,11 +42,7 @@ function loadGame() {
 
 // --- REBIRTH & DEATH LOGIC ---
 
-/**
- * NEW: Displays the rebirth modal and pauses the game.
- */
 function showRebirthModal(cause) {
-    // Pause the game
     clearInterval(gameLoopInterval);
     gameLoopInterval = null;
 
@@ -70,7 +66,6 @@ function showRebirthModal(cause) {
     modalOverlay.style.display = 'flex';
 }
 
-
 function performRebirth() {
     let totalLevels = 0;
     for (const skill in skillsState) {
@@ -83,7 +78,6 @@ function performRebirth() {
 
     resetPlayerState();
     
-    // Hide the modal
     $('modal-overlay').style.display = 'none';
 
     saveGame();
@@ -92,7 +86,6 @@ function performRebirth() {
 
     console.log(`Rebirth #${legacyState.rebirths} complete! You gained ${echoesGained} Blood Echoes.`);
     
-    // Restart the game loop
     if (!gameLoopInterval) {
         gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
     }
@@ -109,7 +102,7 @@ function resetPlayerState() {
         repWolf: 0,
         curseLevel: 0,
     };
-    rebirthModalShown = false; // Reset the flag for the new life
+    rebirthModalShown = false; 
     playerState.completedJobs.add('Simple Villager');
     skillsState = JSON.parse(JSON.stringify(gameConfig.skillDefinitions));
     
@@ -363,15 +356,14 @@ function updateUI() {
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
     if ($('moonIcon')) $('moonIcon').textContent = isNight ? MOON_PHASES[0] : SUN_PHASES[0];
     applyVisualTheme();
-    // Do not re-render skills here for performance, only update values if needed
+    renderAllSkills();
 }
 
 function gameTick() {
-    // Check for rebirth or death conditions FIRST
     if (!rebirthModalShown && playerState.age >= gameConfig.ages.rebirthAge) {
         const cause = playerState.age >= gameConfig.ages.maxAge ? "old_age" : "choice";
         showRebirthModal(cause);
-        rebirthModalShown = true; // Set flag to true so it doesn't show again
+        rebirthModalShown = true; 
         return; 
     }
 
@@ -401,8 +393,6 @@ function gameTick() {
     }
     
     updateUI();
-    // Re-rendering everything every tick is slow. We do it more intelligently now.
-    renderAllSkills();
 }
 
 // --- SETUP FUNCTIONS ---
@@ -444,7 +434,7 @@ function setupThemeToggle() {
 async function initializeGame() {
     loadGame();
     try {
-        const configResponse = await fetch('../game_config.json');
+        const configResponse = await fetch('./game_config.json'); // CORRECTED PATH
         if (!configResponse.ok) throw new Error('Failed to fetch game_config.json.');
         gameConfig = await configResponse.json();
         
@@ -452,7 +442,6 @@ async function initializeGame() {
         setupTabs();
         setupThemeToggle();
         
-        // FIXED: Attach event listener correctly inside initialization
         $('modal-rebirth-button').addEventListener('click', performRebirth);
 
         applyVisualTheme();
