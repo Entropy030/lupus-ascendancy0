@@ -2,7 +2,7 @@
 
 const MOON_PHASES = ["🌕"];
 const SUN_PHASES = ["☀️"];
-const TICK_INTERVAL = 2000;
+const TICK_INTERVAL = 200;
 const TICKS_PER_DAY = 24;
 const YEARS_PER_TICK = 0.08;
 
