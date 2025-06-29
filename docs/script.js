@@ -2,7 +2,7 @@
 
 const MOON_PHASES = ["🌕"];
 const SUN_PHASES = ["☀️"];
-const TICK_INTERVAL = 200;
+const TICK_INTERVAL = 2000;
 const TICKS_PER_DAY = 24;
 const YEARS_PER_TICK = 0.08;
 
@@ -11,7 +11,7 @@ let playerState = {};
 let legacyState = {
     rebirths: 0,
     bloodEchoes: 0,
-    purchasedTalents: {},
+    purchasedTalents: {}, 
 };
 
 let skillsState = {};
@@ -37,38 +37,9 @@ function loadGame() {
     }
 }
 
-// --- REBIRTH & DEATH LOGIC ---
+// --- REBIRTH & TALENT LOGIC ---
 
-/**
- * NEW: Displays the rebirth modal and pauses the game.
- */
-function showRebirthModal(cause) {
-    // Pause the game
-    clearInterval(gameLoopInterval);
-    gameLoopInterval = null;
-
-    const modalOverlay = $('modal-overlay');
-    const modalTitle = $('modal-title');
-    const modalText = $('modal-text');
-    const modalStats = $('modal-stats');
-
-    const totalLevels = Object.values(skillsState).reduce((sum, skill) => sum + skill.level, 0);
-    const echoesGained = Math.floor(totalLevels / 10);
-
-    if (cause === 'old_age') {
-        modalTitle.textContent = "Your Life Fades";
-        modalText.textContent = "You have reached the end of your mortal lifespan. Your body withers, but your essence carries on. It is time to be reborn.";
-    } else {
-        modalTitle.textContent = "Your Time Has Come";
-        modalText.textContent = "You have reached the age of rebirth. Your mortal coil weakens, but your essence can be born anew, stronger than before.";
-    }
-
-    modalStats.innerHTML = `You will gain <span style="color: var(--talent-accent);">${echoesGained}</span> 🩸 Blood Echoes.`;
-    modalOverlay.style.display = 'flex';
-}
-
-
-function performRebirth() {
+function performRebirth(cause = "choice") {
     let totalLevels = 0;
     for (const skill in skillsState) {
         totalLevels += skillsState[skill].level;
@@ -79,20 +50,16 @@ function performRebirth() {
     legacyState.bloodEchoes += echoesGained;
 
     resetPlayerState();
-    
-    // Hide the modal
-    $('modal-overlay').style.display = 'none';
-
+    $('rebirth-container').style.display = 'none';
     saveGame();
     updateUI();
-    renderAllTalents();
+    renderAllTalents(); 
 
-    console.log(`Rebirth #${legacyState.rebirths} complete! You gained ${echoesGained} Blood Echoes.`);
+    let deathMessage = cause === "old_age" 
+        ? "You have died of old age and are reborn."
+        : `Rebirth #${legacyState.rebirths} complete!`;
     
-    // Restart the game loop
-    if (!gameLoopInterval) {
-        gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
-    }
+    console.log(`${deathMessage} You gained ${echoesGained} Blood Echoes.`);
 }
 
 function resetPlayerState() {
@@ -117,7 +84,6 @@ function resetPlayerState() {
         }
     }
 }
-
 
 // --- TALENT SYSTEM ---
 
@@ -305,7 +271,7 @@ function renderAllJobs() { if ($('jobs')) { $('jobs').innerHTML = ''; gameConfig
 function gainSkillXp(skillName, xpGain) {
     if (!skillsState[skillName]) return;
     const skill = skillsState[skillName];
-    skill.xp += xpGain;
+    skill.xp += xpGain * (legacyState.xpBonus || 1);
     if (skill.xp >= skill.xpToNext) {
         while (skill.xp >= skill.xpToNext) {
             skill.xp -= skill.xpToNext;
@@ -359,25 +325,16 @@ function updateUI() {
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
     if ($('moonIcon')) $('moonIcon').textContent = isNight ? MOON_PHASES[0] : SUN_PHASES[0];
     applyVisualTheme();
-    renderAllSkills();
 }
 
 function gameTick() {
-    // Check for rebirth or death conditions FIRST
-    if (playerState.age >= gameConfig.ages.maxAge) {
-        showRebirthModal("old_age");
-        return; 
-    }
-    if (playerState.age >= gameConfig.ages.rebirthAge) {
-        showRebirthModal("choice");
-        return;
-    }
-
+    if (playerState.age >= gameConfig.ages.maxAge) { performRebirth("old_age"); return; }
     playerState.day++;
     playerState.age += YEARS_PER_TICK;
     applyJobRewards();
     const event = triggerNightEvent();
     const eventSection = $('eventPanel');
+    if (playerState.age >= gameConfig.ages.rebirthAge) $('rebirth-container').style.display = 'block';
     if (event) {
         const dayNumber = Math.floor(playerState.day / TICKS_PER_DAY);
         $('nightTitle').textContent = `Night of Day ${dayNumber}`;
@@ -438,14 +395,18 @@ function setupThemeToggle() {
 async function initializeGame() {
     loadGame();
     try {
-        const configResponse = await fetch('../game_config.json');
+        // CORRECTED PATHS FOR GITHUB PAGES
+        const configResponse = await fetch('./game_config.json');
         if (!configResponse.ok) throw new Error('Failed to fetch game_config.json.');
         gameConfig = await configResponse.json();
+        
+        // This is no longer needed as we moved the file
+        // const playerResponse = await fetch('./player.json');
+
         resetPlayerState();
         setupTabs();
         setupThemeToggle();
-        $('modal-rebirth-button').addEventListener('click', performRebirth);
-
+        $('rebirth-button').addEventListener('click', () => performRebirth("choice"));
         applyVisualTheme();
         updateUI();
         renderAllJobs();
