@@ -8,13 +8,14 @@ html {
   
   /* Base Variables & Styles */
   :root {
-      --bg-color: #0b0f16; /* Default to night */
-      --text-color: #f0e8dc; /* Default to night */
+      --bg-color: #0b0f16;
+      --text-color: #f0e8dc;
       --accent: #a4b97f;
       --card-bg: rgba(255, 255, 255, 0.04);
       --font-main: 'Georgia', serif;
-      --moon-glow: 0 0 12px rgba(255, 225, 160, 0.4);
-      --bar-color: #d9493d; /* Default to night bar color (blood red) */
+      --moon-glow: 0 0 15px rgba(241, 233, 204, 0.6);
+      --bar-color: #d9493d;
+      --talent-accent: #8e6e95; 
   }
   
   html, body {
@@ -23,20 +24,78 @@ html {
       padding: 0;
       font-family: var(--font-main);
       color: var(--text-color);
-      overflow-x: hidden; /* Prevent horizontal scroll */
-      overflow-y: auto; /* Allow vertical scroll */
+      overflow-x: hidden;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       background: var(--bg-color) url('assets/forest-silhouette.png') no-repeat center bottom / cover;
       transition: background 1s ease, color 0.5s ease;
   }
   
+  /* --- NEW: Modal Styles --- */
+  #modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+  }
+  .modal-content {
+      background: #1a1a1a; /* Darker than normal cards */
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      border: 1px solid var(--talent-accent);
+      box-shadow: 0 0 20px rgba(142, 110, 149, 0.5);
+  }
+  .modal-content h2 {
+      color: var(--talent-accent);
+      margin-top: 0;
+  }
+  .modal-content p {
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+  }
+  #modal-stats {
+      margin-bottom: 1.5rem;
+      font-weight: bold;
+  }
+  #modal-rebirth-button {
+      width: 100%;
+      padding: 0.75rem;
+      font-family: var(--font-main);
+      background: #e63946;
+      color: #f1faee;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+  }
+  #modal-rebirth-button:hover {
+      background: #d00000;
+      transform: scale(1.02);
+  }
+  /* --- END Modal Styles --- */
+  
+  
   /* Header & Main Structure */
   header, main, footer { position: relative; z-index: 1; width: 100%; }
   header { text-align: center; margin-bottom: 2vh; padding-top: 2vh; }
-  #moonIcon { font-size: 4rem; animation: rotateMoon 30s linear infinite; text-shadow: var(--moon-glow); margin-bottom: 0.5rem; }
+  #moonIcon { 
+      font-size: 4rem; 
+      text-shadow: var(--moon-glow); 
+      margin-bottom: 0.5rem; 
+  }
   header h1 { font-size: 2.2rem; text-shadow: 0 0 8px rgba(0, 0, 0, 0.3); font-weight: 400; }
-  @keyframes rotateMoon { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
   main { flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; padding: 2vh 4vw; }
   .card { background: var(--card-bg); border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 0 8px rgba(0, 0, 0, 0.25); margin-bottom: 1rem; }
   .stat { margin-bottom: 1rem; }
@@ -53,8 +112,8 @@ html {
   section { display: none; margin-top: 1rem; }
   section.active { display: block; }
   
-  /* Responsive Grid for Jobs & Skills */
-  section#jobs.active, .skill-section {
+  /* Responsive Grid for Jobs, Skills, & Talents */
+  section#jobs.active, .skill-section, section#talents.active {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1rem;
@@ -64,11 +123,26 @@ html {
   .job-card { display: flex; flex-direction: column; gap: 0.5rem; }
   .job-card .job-title { font-size: 1.25rem; font-weight: bold; }
   .job-card .job-details { font-size: 0.9rem; opacity: 0.8; }
-  .job-card .job-action button { width: 100%; padding: 0.75rem; font-family: var(--font-main); background: var(--accent); color: #0b0f16; border: none; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
-  .job-card .job-action button:hover { background: #c2d4a5; }
+  .job-action button { width: 100%; padding: 0.75rem; font-family: var(--font-main); background: var(--accent); color: #0b0f16; border: none; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
+  .job-action button:hover { background: #c2d4a5; }
   .job-card.locked { opacity: 0.5; background: rgba(0, 0, 0, 0.2); }
   .job-card.locked .job-action button { background: #555; color: #999; cursor: not-allowed; }
   .job-card.active-job { border: 1px solid var(--accent); box-shadow: 0 0 12px var(--accent); }
+  
+  /* Talent Card Styles */
+  .talent-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      border-left: 4px solid var(--talent-accent);
+  }
+  .talent-card .talent-title { font-size: 1.2rem; font-weight: bold; color: var(--talent-accent); }
+  .talent-card .talent-desc { font-size: 0.9rem; opacity: 0.9; flex-grow: 1; }
+  .talent-card .talent-cost { font-weight: bold; }
+  .talent-card .talent-level { font-size: 0.8rem; opacity: 0.7; }
+  .talent-action button { width: 100%; padding: 0.75rem; font-family: var(--font-main); background: var(--talent-accent); color: white; border: none; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
+  .talent-card.maxed button { background: #555; color: #999; cursor: not-allowed; }
+  .talent-card.unaffordable button { opacity: 0.6; cursor: not-allowed; }
   
   /* Skills Section */
   .skill-card { margin-bottom: 0; cursor: pointer; border: 1px solid transparent; transition: border 0.3s, box-shadow 0.3s; }
@@ -93,23 +167,12 @@ html {
   /* Theme Overrides */
   body.day { --text-color: #000000; --bar-color: #d4a037; background: url('assets/forest-day.png') no-repeat center bottom / cover; background-color: #e0f7fa; }
   body.day .card { background: rgba(255, 255, 255, 0.3); color: var(--text-color); }
+  body.day #moonIcon { --moon-glow: 0 0 15px rgba(255, 190, 0, 0.7); }
+  
   body.night { --text-color: #f0e8dc; --bar-color: #d9493d; background: url('assets/forest-silhouette.png') no-repeat center bottom / cover; background-color: #0b0f16; }
   body.night .card { background: rgba(255, 255, 255, 0.05); color: var(--text-color); }
   
-  /* --- RESPONSIVE STYLES --- */
-  
-  /* Tablet and larger phones */
-  @media (max-width: 768px) {
-      header h1 { font-size: 1.75rem; }
-      #moonIcon { font-size: 3rem; }
-      nav button { font-size: 0.9rem; }
-  }
-  
-  /* Small phones */
-  @media (max-width: 480px) {
-      header h1 { font-size: 1.5rem; }
-      #moonIcon { font-size: 2.5rem; }
-      nav button { font-size: 0.8rem; flex-basis: 90px; } /* Adjust basis for smaller screens */
-      .setting-item { flex-direction: column; align-items: flex-start; }
-  }
+  /* RESPONSIVE STYLES */
+  @media (max-width: 768px) { header h1 { font-size: 1.75rem; } #moonIcon { font-size: 3rem; } nav button { font-size: 0.9rem; } }
+  @media (max-width: 480px) { header h1 { font-size: 1.5rem; } #moonIcon { font-size: 2.5rem; } nav button { font-size: 0.8rem; flex-basis: 90px; } .setting-item { flex-direction: column; align-items: flex-start; } }
   

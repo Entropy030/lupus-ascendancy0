@@ -1,52 +1,199 @@
 // --- GLOBAL STATE & CONSTANTS ---
 
-const MOON_PHASES = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"];
+const MOON_PHASES = ["🌕"];
 const SUN_PHASES = ["☀️"];
-const TICK_INTERVAL = 2000;
+const TICK_INTERVAL = 200;
 const TICKS_PER_DAY = 24;
+const YEARS_PER_TICK = 0.08;
 
 let gameConfig = {};
-let playerState = {
-    day: 0, age: 0, coins: 0, skills: {}, completedJobs: new Set(),
-    activeJob: null, repVillage: 0, repWolf: 0, curseLevel: 0, rebirths: 0,
+let playerState = {};
+let legacyState = {
+    rebirths: 0,
+    bloodEchoes: 0,
+    purchasedTalents: {},
 };
+
 let skillsState = {};
 let gameLoopInterval = null;
-let visualTheme = 'auto'; // 'auto', 'day', 'night'
+let visualTheme = 'auto';
 
 function $(id) {
     return document.getElementById(id);
 }
 
-// --- THEME AND VISUALS ---
+// --- SAVE & LOAD ---
+
+function saveGame() {
+    localStorage.setItem('lupus_legacy_save', JSON.stringify(legacyState));
+}
+
+function loadGame() {
+    const savedData = localStorage.getItem('lupus_legacy_save');
+    if (savedData) {
+        const loadedState = JSON.parse(savedData);
+        legacyState = { ...{ rebirths: 0, bloodEchoes: 0, purchasedTalents: {} }, ...loadedState };
+        console.log("Loaded permanent progress:", legacyState);
+    }
+}
+
+// --- REBIRTH & DEATH LOGIC ---
 
 /**
- * NEW: Updated function to apply visual theme based on player's setting.
+ * NEW: Displays the rebirth modal and pauses the game.
  */
+function showRebirthModal(cause) {
+    // Pause the game
+    clearInterval(gameLoopInterval);
+    gameLoopInterval = null;
+
+    const modalOverlay = $('modal-overlay');
+    const modalTitle = $('modal-title');
+    const modalText = $('modal-text');
+    const modalStats = $('modal-stats');
+
+    const totalLevels = Object.values(skillsState).reduce((sum, skill) => sum + skill.level, 0);
+    const echoesGained = Math.floor(totalLevels / 10);
+
+    if (cause === 'old_age') {
+        modalTitle.textContent = "Your Life Fades";
+        modalText.textContent = "You have reached the end of your mortal lifespan. Your body withers, but your essence carries on. It is time to be reborn.";
+    } else {
+        modalTitle.textContent = "Your Time Has Come";
+        modalText.textContent = "You have reached the age of rebirth. Your mortal coil weakens, but your essence can be born anew, stronger than before.";
+    }
+
+    modalStats.innerHTML = `You will gain <span style="color: var(--talent-accent);">${echoesGained}</span> 🩸 Blood Echoes.`;
+    modalOverlay.style.display = 'flex';
+}
+
+
+function performRebirth() {
+    let totalLevels = 0;
+    for (const skill in skillsState) {
+        totalLevels += skillsState[skill].level;
+    }
+    const echoesGained = Math.floor(totalLevels / 10);
+
+    legacyState.rebirths += 1;
+    legacyState.bloodEchoes += echoesGained;
+
+    resetPlayerState();
+    
+    // Hide the modal
+    $('modal-overlay').style.display = 'none';
+
+    saveGame();
+    updateUI();
+    renderAllTalents();
+
+    console.log(`Rebirth #${legacyState.rebirths} complete! You gained ${echoesGained} Blood Echoes.`);
+    
+    // Restart the game loop
+    if (!gameLoopInterval) {
+        gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
+    }
+}
+
+function resetPlayerState() {
+    playerState = {
+        day: 0,
+        age: gameConfig.ages.startAge,
+        coins: 0,
+        completedJobs: new Set(),
+        activeJob: 'Simple Villager',
+        repVillage: 0,
+        repWolf: 0,
+        curseLevel: 0,
+    };
+    playerState.completedJobs.add('Simple Villager');
+    skillsState = JSON.parse(JSON.stringify(gameConfig.skillDefinitions));
+    
+    const lingeringKnowledge = legacyState.purchasedTalents['lingering_knowledge'];
+    if (lingeringKnowledge) {
+        const talentInfo = gameConfig.talents.find(t => t.id === 'lingering_knowledge');
+        for(const skill in skillsState) {
+            gainSkillXp(skill, talentInfo.value);
+        }
+    }
+}
+
+
+// --- TALENT SYSTEM ---
+
+function purchaseTalent(talentId) {
+    const talent = gameConfig.talents.find(t => t.id === talentId);
+    if (!talent) return;
+    const currentLevel = legacyState.purchasedTalents[talentId] || 0;
+    if (currentLevel >= talent.maxLevel) return;
+
+    if (legacyState.bloodEchoes >= talent.cost) {
+        legacyState.bloodEchoes -= talent.cost;
+        legacyState.purchasedTalents[talentId] = currentLevel + 1;
+        saveGame();
+        renderAllTalents();
+        updateUI();
+    }
+}
+
+function createTalentCard(talent) {
+    const card = document.createElement('div');
+    card.className = 'card talent-card';
+    const currentLevel = legacyState.purchasedTalents[talent.id] || 0;
+    const isMaxed = currentLevel >= talent.maxLevel;
+    const canAfford = legacyState.bloodEchoes >= talent.cost;
+
+    if(isMaxed) card.classList.add('maxed');
+    if(!canAfford && !isMaxed) card.classList.add('unaffordable');
+
+    const title = document.createElement('div');
+    title.className = 'talent-title';
+    title.textContent = talent.name;
+
+    const level = document.createElement('div');
+    level.className = 'talent-level';
+    level.textContent = `Level: ${currentLevel} / ${talent.maxLevel}`;
+
+    const desc = document.createElement('div');
+    desc.className = 'talent-desc';
+    desc.textContent = talent.description;
+
+    const cost = document.createElement('div');
+    cost.className = 'talent-cost';
+    cost.innerHTML = `Cost: <span style="color: var(--talent-accent);">${talent.cost}</span> 🩸`;
+
+    const action = document.createElement('div');
+    action.className = 'talent-action';
+    const button = document.createElement('button');
+    button.textContent = isMaxed ? 'Maxed Out' : 'Purchase';
+    button.disabled = isMaxed || !canAfford;
+    if (!isMaxed) button.onclick = () => purchaseTalent(talent.id);
+    action.appendChild(button);
+
+    card.append(title, level, desc, cost, action);
+    return card;
+}
+
+function renderAllTalents() {
+    const container = $('talents');
+    if (container) {
+        container.innerHTML = '';
+        gameConfig.talents.forEach(talent => container.appendChild(createTalentCard(talent)));
+    }
+}
+
+// --- THEME ---
 function applyVisualTheme() {
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
-
     if (visualTheme === 'auto') {
         document.body.classList.toggle('night', isNight);
         document.body.classList.toggle('day', !isNight);
-    } else if (visualTheme === 'day') {
-        document.body.classList.add('day');
-        document.body.classList.remove('night');
-    } else { // night
-        document.body.classList.add('night');
-        document.body.classList.remove('day');
-    }
+    } else { document.body.className = visualTheme; }
 }
 
 // --- CORE GAME LOGIC ---
 
-function skillNameFromProduce(produceStr) {
-    if (produceStr.toLowerCase().endsWith('xp')) {
-        const base = produceStr.slice(0, -2);
-        return base.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-    }
-    return produceStr.replace(/\b\w/g, l => l.toUpperCase());
-}
+function skillNameFromProduce(str) { return str.toLowerCase().endsWith('xp') ? str.slice(0, -2).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : str.replace(/\b\w/g, l => l.toUpperCase()); }
 
 function applyJobRewards() {
     if (!playerState.activeJob) return;
@@ -57,15 +204,25 @@ function applyJobRewards() {
     const jobIsActiveNow = (job.type === 'human' && !isNight) || (job.type === 'werewolf' && isNight);
     if (!jobIsActiveNow) return;
 
-    const coinGain = 10;
+    let coinGain = 10;
     const xpGain = 5;
+
+    const primalGreedLevel = legacyState.purchasedTalents['primal_greed'] || 0;
+    if (primalGreedLevel > 0) coinGain *= (1 + (primalGreedLevel * 0.1));
+
     for (const item of job.produces) {
         if (item === 'coins') playerState.coins += coinGain;
         else if (item.endsWith('XP')) gainSkillXp(skillNameFromProduce(item), xpGain);
     }
+    
     if (job.reputationEffects) {
-        if (job.reputationEffects.repVillage) playerState.repVillage += job.reputationEffects.repVillage;
-        if (job.reputationEffects.repWolf) playerState.repWolf += job.reputationEffects.repWolf;
+        let { repVillage: villageRepGain = 0, repWolf: wolfRepGain = 0 } = job.reputationEffects;
+        const humanityCharmLevel = legacyState.purchasedTalents['humanity_charm'] || 0;
+        const feralAffinityLevel = legacyState.purchasedTalents['feral_affinity'] || 0;
+        if(villageRepGain > 0 && humanityCharmLevel > 0) villageRepGain *= (1 + (humanityCharmLevel * 0.1));
+        if(wolfRepGain > 0 && feralAffinityLevel > 0) wolfRepGain *= (1 + (feralAffinityLevel * 0.1));
+        playerState.repVillage += villageRepGain;
+        playerState.repWolf += wolfRepGain;
     }
 }
 
@@ -75,9 +232,7 @@ function triggerNightEvent() {
     const currentJob = gameConfig.jobs.find(j => j.name === playerState.activeJob);
     if (!currentJob) return null;
 
-    if (currentJob.name === 'Seer' && Math.random() < 0.5) {
-        return { type: "Seer's Vision", flavor: "You gaze into the stars and a fragmented vision comes to you..." };
-    }
+    if (currentJob.name === 'Seer' && Math.random() < 0.5) return { type: "Seer's Vision", flavor: "You gaze into the stars..." };
     if (currentJob.type === 'werewolf' && Math.random() < 0.4) {
         return Math.random() < 0.7 
             ? { type: "Successful Hunt", flavor: "The thrill of the hunt...", effects: { repWolf: 2, repVillage: -1 } }
@@ -91,7 +246,7 @@ function triggerNightEvent() {
             return {
                 type: eventTemplate.name,
                 flavor: outcome.flavor || eventTemplate.flavor,
-                effects: { repVillage: outcome.repVillage || 0, repWolf: outcome.repWolf || 0, curseLevel: outcome.curseLevel || 0 }
+                effects: { ...outcome }
             };
         }
         return { type: eventTemplate.name, flavor: eventTemplate.flavor, effects: {} };
@@ -99,7 +254,7 @@ function triggerNightEvent() {
     return null;
 }
 
-// --- JOB MANAGEMENT ---
+// --- JOB & SKILL RENDERING ---
 
 function setActiveJob(jobName) {
     playerState.activeJob = jobName;
@@ -116,8 +271,7 @@ function createJobCard(job) {
     let skillReqText = [];
     if (job.skillRequires) {
         for (const [skill, level] of Object.entries(job.skillRequires)) {
-            const currentSkill = skillsState[skill];
-            if (!currentSkill || currentSkill.level < level) skillsMet = false;
+            if (!skillsState[skill] || skillsState[skill].level < level) skillsMet = false;
             skillReqText.push(`${skill} (Lv. ${level})`);
         }
     }
@@ -133,9 +287,7 @@ function createJobCard(job) {
     details.textContent = `Produces: ${job.produces.map(p => skillNameFromProduce(p)).join(', ')}`;
     const requirements = document.createElement('div');
     requirements.className = 'job-details';
-    let reqs = [];
-    if (job.requires.length > 0) reqs.push(...job.requires);
-    if (skillReqText.length > 0) reqs.push(...skillReqText);
+    let reqs = [...job.requires, ...skillReqText];
     requirements.textContent = `Requires: ${reqs.join(', ') || 'None'}`;
     const action = document.createElement('div');
     action.className = 'job-action';
@@ -148,24 +300,20 @@ function createJobCard(job) {
     return card;
 }
 
-function renderAllJobs() {
-    const container = $('jobs');
-    if (container) {
-        container.innerHTML = '';
-        gameConfig.jobs.forEach(job => container.appendChild(createJobCard(job)));
-    }
-}
-
-// --- SKILL MANAGEMENT ---
+function renderAllJobs() { if ($('jobs')) { $('jobs').innerHTML = ''; gameConfig.jobs.forEach(job => $('jobs').appendChild(createJobCard(job))); } }
 
 function gainSkillXp(skillName, xpGain) {
     if (!skillsState[skillName]) return;
     const skill = skillsState[skillName];
     skill.xp += xpGain;
-    while (skill.xp >= skill.xpToNext) {
-        skill.xp -= skill.xpToNext;
-        skill.level += 1;
-        skill.xpToNext = Math.round(skill.xpToNext * 1.5);
+    if (skill.xp >= skill.xpToNext) {
+        while (skill.xp >= skill.xpToNext) {
+            skill.xp -= skill.xpToNext;
+            skill.level += 1;
+            skill.xpToNext = Math.round(skill.xpToNext * 1.5);
+        }
+        renderAllSkills();
+        renderAllJobs();
     }
 }
 
@@ -175,7 +323,7 @@ function renderSkillCard(name, skill) {
     card.title = skill.effect;
     const label = document.createElement('div');
     label.className = 'progress-label';
-    label.innerHTML = `<span>${name} (Lv ${skill.level})</span><span>${skill.xp}/${skill.xpToNext}</span>`;
+    label.innerHTML = `<span>${name} (Lv ${skill.level})</span><span>${skill.xp.toFixed(0)}/${skill.xpToNext}</span>`;
     const barContainer = document.createElement('div');
     barContainer.className = 'progress';
     const bar = document.createElement('div');
@@ -191,33 +339,42 @@ function renderAllSkills() {
     const sections = { 'General': $('general-skills'), 'Human': $('human-skills'), 'Wolf': $('wolf-skills'), 'Job': $('job-skills') };
     Object.values(sections).forEach(s => { if(s) s.innerHTML = ''});
     for (const [name, skill] of Object.entries(skillsState)) {
-        const card = renderSkillCard(name, skill);
         const container = sections[skill.category] || sections['Job'];
-        if (container) container.appendChild(card);
+        if (container) container.appendChild(renderSkillCard(name, skill));
     }
 }
 
 // --- UI & GAME LOOP ---
 
 function updateUI() {
-    $('day').textContent = Math.floor(playerState.day / TICKS_PER_DAY);
-    $('age').textContent = playerState.age.toFixed(2);
-    $('job').textContent = playerState.activeJob || 'None';
-    $('coinNum').textContent = playerState.coins;
-    $('coinBar').style.width = `${(playerState.coins % 100)}%`;
-    $('repVillage').textContent = playerState.repVillage.toFixed(2);
-    $('repWolf').textContent = playerState.repWolf.toFixed(2);
-    $('curseLevel').textContent = playerState.curseLevel;
-    $('rebirths').textContent = playerState.rebirths;
+    if ($('age')) $('age').textContent = Math.floor(playerState.age);
+    if ($('job')) $('job').textContent = playerState.activeJob || 'None';
+    if ($('coinNum')) $('coinNum').textContent = Math.floor(playerState.coins);
+    if ($('coinBar')) $('coinBar').style.width = `${(playerState.coins % 100)}%`;
+    if ($('repVillage')) $('repVillage').textContent = playerState.repVillage.toFixed(2);
+    if ($('repWolf')) $('repWolf').textContent = playerState.repWolf.toFixed(2);
+    if ($('curseLevel')) $('curseLevel').textContent = playerState.curseLevel;
+    if ($('rebirths')) $('rebirths').textContent = legacyState.rebirths;
+    if ($('bloodEchoes')) $('bloodEchoes').textContent = legacyState.bloodEchoes;
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
-    $('moonIcon').textContent = isNight ? MOON_PHASES[playerState.day % MOON_PHASES.length] : SUN_PHASES[0];
-    applyVisualTheme(); // Apply the theme on every UI update
+    if ($('moonIcon')) $('moonIcon').textContent = isNight ? MOON_PHASES[0] : SUN_PHASES[0];
+    applyVisualTheme();
     renderAllSkills();
 }
 
 function gameTick() {
+    // Check for rebirth or death conditions FIRST
+    if (playerState.age >= gameConfig.ages.maxAge) {
+        showRebirthModal("old_age");
+        return; 
+    }
+    if (playerState.age >= gameConfig.ages.rebirthAge) {
+        showRebirthModal("choice");
+        return;
+    }
+
     playerState.day++;
-    playerState.age = gameConfig.ages.startAge + (playerState.day / (TICKS_PER_DAY * 365));
+    playerState.age += YEARS_PER_TICK;
     applyJobRewards();
     const event = triggerNightEvent();
     const eventSection = $('eventPanel');
@@ -227,15 +384,19 @@ function gameTick() {
         $('eventFlavor').textContent = event.flavor || 'A strange feeling washes over you.';
         eventSection.classList.add('show');
         if (event.effects) {
-            if (event.effects.repWolf) playerState.repWolf += event.effects.repWolf;
-            if (event.effects.repVillage) playerState.repVillage += event.effects.repVillage;
-            if (event.effects.curseLevel) playerState.curseLevel += event.effects.curseLevel;
+            let { repVillage: vRep = 0, repWolf: wRep = 0, curseLevel: cLvl = 0 } = event.effects;
+            const humanityCharmLevel = legacyState.purchasedTalents['humanity_charm'] || 0;
+            const feralAffinityLevel = legacyState.purchasedTalents['feral_affinity'] || 0;
+            if(vRep > 0 && humanityCharmLevel > 0) vRep *= (1 + (humanityCharmLevel * 0.1));
+            if(wRep > 0 && feralAffinityLevel > 0) wRep *= (1 + (feralAffinityLevel * 0.1));
+            playerState.repVillage += vRep;
+            playerState.repWolf += wRep;
+            playerState.curseLevel += cLvl;
         }
     } else {
         eventSection.classList.remove('show');
     }
     updateUI();
-    renderAllJobs();
 }
 
 // --- SETUP FUNCTIONS ---
@@ -250,64 +411,50 @@ function setupTabs() {
             btn.classList.add('active');
             const target = $(btn.dataset.tab);
             if (target) target.classList.add('active');
+            switch(btn.dataset.tab) {
+                case 'jobs': renderAllJobs(); break;
+                case 'skills': renderAllSkills(); break;
+                case 'talents': renderAllTalents(); break;
+            }
         });
     });
 }
 
-/**
- * NEW: Sets up the theme selection buttons and loads the saved theme.
- */
 function setupThemeToggle() {
     const themeButtons = document.querySelectorAll('#theme-toggle button');
     themeButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Set the new theme
             visualTheme = button.dataset.theme;
             localStorage.setItem('lupus_theme', visualTheme);
-
-            // Update active button state
-            themeButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            // Immediately apply the new theme
+            themeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === visualTheme));
             applyVisualTheme();
         });
     });
-
-    // Load saved theme from localStorage
-    const savedTheme = localStorage.getItem('lupus_theme');
-    if (savedTheme) {
-        visualTheme = savedTheme;
-        themeButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.theme === savedTheme);
-        });
-    }
+    const savedTheme = localStorage.getItem('lupus_theme') || 'auto';
+    visualTheme = savedTheme;
+    themeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === savedTheme));
 }
 
 async function initializeGame() {
+    loadGame();
     try {
-        const [playerResponse, configResponse] = await Promise.all([ fetch('../player.json'), fetch('../game_config.json') ]);
-        if (!playerResponse.ok || !configResponse.ok) throw new Error('Failed to fetch game files.');
-
-        const initialPlayerData = await playerResponse.json();
+        const configResponse = await fetch('../game_config.json');
+        if (!configResponse.ok) throw new Error('Failed to fetch game_config.json.');
         gameConfig = await configResponse.json();
-        
-        playerState.activeJob = initialPlayerData.activeJob;
-        playerState.coins = initialPlayerData.coins;
-        playerState.age = gameConfig.ages.startAge;
-        playerState.completedJobs.add(initialPlayerData.activeJob);
-
-        skillsState = JSON.parse(JSON.stringify(gameConfig.skillDefinitions));
-
+        resetPlayerState();
         setupTabs();
-        setupThemeToggle(); // NEW: Initialize the theme buttons
-        applyVisualTheme(); // Apply initial theme
+        setupThemeToggle();
+        $('modal-rebirth-button').addEventListener('click', performRebirth);
+
+        applyVisualTheme();
         updateUI();
         renderAllJobs();
+        renderAllTalents();
+        setInterval(saveGame, 10000);
         gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
     } catch (error) {
         console.error("Error initializing game:", error);
-        document.body.innerHTML = `<div style="color: white; text-align: center; padding: 50px;"><h1>Error loading game data</h1><p>Could not load game files. Please ensure player.json and game_config.json are accessible.</p></div>`;
+        document.body.innerHTML = `<div style="color: white; text-align: center; padding: 50px;"><h1>Error loading game data</h1><p>${error.message}</p></div>`;
     }
 }
 

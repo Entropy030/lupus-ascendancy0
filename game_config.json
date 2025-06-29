@@ -4,26 +4,46 @@
   "ages": {
     "startAge": 14,
     "rebirthAge": 70,
-    "maxAge": 200
+    "maxAge": 85
   },
-  "prestige": {
-    "name": "Moonblood Rebirth",
-    "effects": [
-      "XP multiplier",
-      "Unlocks new forms",
-      "Reputation reset"
-    ],
-    "finalForm": "Moonborne Entity"
-  },
-  "dayNightCycle": true,
-  "reputation": {
-    "repVillage": {
-      "description": "Measures trust among humans based on jobs, rituals, and interactions."
+  "talents": [
+    {
+      "id": "primal_greed",
+      "name": "Primal Greed",
+      "description": "Your instincts for survival sharpen. All coin gains are permanently increased by 10%.",
+      "cost": 2,
+      "maxLevel": 5,
+      "effect": "coin_gain_multiplier",
+      "value": 0.1
     },
-    "repWolf": {
-      "description": "Measures respect among the werewolf pack based on feral progression and curse alignment."
-    }
-  },
+    {
+      "id": "feral_affinity",
+      "name": "Feral Affinity",
+      "description": "The whispers of the pack resonate deeper within you. All Wolf Reputation gains are permanently increased by 10%.",
+      "cost": 3,
+      "maxLevel": 10,
+      "effect": "wolf_rep_multiplier",
+      "value": 0.1
+    },
+    {
+      "id": "humanity_charm",
+      "name": "Humanity's Charm",
+      "description": "You learn to better navigate the social constructs of the village. All Village Reputation gains are permanently increased by 10%.",
+      "cost": 3,
+      "maxLevel": 10,
+      "effect": "village_rep_multiplier",
+      "value": 0.1
+    },
+    {
+        "id": "lingering_knowledge",
+        "name": "Lingering Knowledge",
+        "description": "Echoes of past lives remain. Start each new life with 100 XP in every skill.",
+        "cost": 5,
+        "maxLevel": 1,
+        "effect": "starting_xp",
+        "value": 100
+      }
+  ],
   "jobs": [
     {
       "name": "Simple Villager", "tier": 1, "type": "human", "requires": [],

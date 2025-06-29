@@ -7,15 +7,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="night">
+    <!-- NEW: Rebirth Modal/Pop-up -->
+    <div id="modal-overlay" style="display: none;">
+        <div class="modal-content card">
+            <h2 id="modal-title">Your Time Has Come</h2>
+            <p id="modal-text">You have reached the age of rebirth. Your mortal coil weakens, but your essence can be born anew, stronger than before.</p>
+            <div id="modal-stats"></div>
+            <button id="modal-rebirth-button">Be Reborn</button>
+        </div>
+    </div>
+
     <header>
-        <div id="moonIcon">🌑</div>
+        <div id="moonIcon">🌕</div>
         <h1>Lupus Ascendancy</h1>
     </header>
 
     <main>
         <!-- Player Stats Card -->
         <div id="playerCard" class="card">
-            <div>Day <span id="day">0</span> — Age <span id="age">0</span></div>
+            <div id="age-display">Age <span id="age">0</span></div>
             <div id="jobDisplay">🪓 Job: <span id="job">Loading...</span></div>
             <div id="coinStat" class="stat">
                 <div class="label">🟡 Coins: <span id="coinNum">0</span></div>
@@ -28,9 +38,9 @@
             <button data-tab="stats" class="active">Stats</button>
             <button data-tab="skills">Skills</button>
             <button data-tab="jobs">Jobs</button>
+            <button data-tab="talents">Talents</button>
             <button data-tab="events">Events</button>
             <button data-tab="lore">Lore</button>
-            <!-- New Settings Tab Button -->
             <button data-tab="settings">Settings</button>
         </nav>
 
@@ -44,7 +54,13 @@
                 <h2>Progression</h2>
                 <div>Curse Level: <span id="curseLevel">0</span></div>
                 <div>Rebirths: <span id="rebirths">0</span></div>
+                <div>🩸 Blood Echoes: <span id="bloodEchoes">0</span></div>
             </div>
+        </section>
+        
+        <!-- Talents Tab Section -->
+        <section id="talents">
+            <!-- Talent cards will be dynamically inserted here -->
         </section>
 
         <!-- Skills Tab -->
@@ -61,7 +77,6 @@
 
         <!-- Jobs Tab -->
         <section id="jobs">
-            <!-- Job cards will be dynamically inserted here by script.js -->
         </section>
 
         <!-- Events Tab -->
@@ -79,7 +94,7 @@
             </div>
         </section>
         
-        <!-- New Settings Tab Section -->
+        <!-- Settings Tab Section -->
         <section id="settings">
             <div class="card">
                 <h2>Settings</h2>
@@ -96,7 +111,7 @@
     </main>
 
     <footer>
-        <span>v0.7 — QoL</span>
+        <span>v1.0 — Rebirth</span>
     </footer>
 
     <script src="script.js" defer></script>
