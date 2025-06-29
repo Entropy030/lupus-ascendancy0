@@ -11,12 +11,15 @@ let playerState = {};
 let legacyState = {
     rebirths: 0,
     bloodEchoes: 0,
-    purchasedTalents: {}, 
+    purchasedTalents: {},
 };
 
 let skillsState = {};
 let gameLoopInterval = null;
 let visualTheme = 'auto';
+
+// A flag to ensure the rebirth modal is only shown once per life
+let rebirthModalShown = false; 
 
 function $(id) {
     return document.getElementById(id);
@@ -37,9 +40,38 @@ function loadGame() {
     }
 }
 
-// --- REBIRTH & TALENT LOGIC ---
+// --- REBIRTH & DEATH LOGIC ---
 
-function performRebirth(cause = "choice") {
+/**
+ * NEW: Displays the rebirth modal and pauses the game.
+ */
+function showRebirthModal(cause) {
+    // Pause the game
+    clearInterval(gameLoopInterval);
+    gameLoopInterval = null;
+
+    const modalOverlay = $('modal-overlay');
+    const modalTitle = $('modal-title');
+    const modalText = $('modal-text');
+    const modalStats = $('modal-stats');
+
+    const totalLevels = Object.values(skillsState).reduce((sum, skill) => sum + skill.level, 0);
+    const echoesGained = Math.floor(totalLevels / 10);
+
+    if (cause === 'old_age') {
+        modalTitle.textContent = "Your Life Fades";
+        modalText.textContent = "You have reached the end of your mortal lifespan. Your body withers, but your essence carries on. It is time to be reborn.";
+    } else {
+        modalTitle.textContent = "Your Time Has Come";
+        modalText.textContent = "You have reached the age of rebirth. Your mortal coil weakens, but your essence can be born anew, stronger than before.";
+    }
+
+    modalStats.innerHTML = `You will gain <span style="color: var(--talent-accent);">${echoesGained}</span> 🩸 Blood Echoes.`;
+    modalOverlay.style.display = 'flex';
+}
+
+
+function performRebirth() {
     let totalLevels = 0;
     for (const skill in skillsState) {
         totalLevels += skillsState[skill].level;
@@ -50,16 +82,20 @@ function performRebirth(cause = "choice") {
     legacyState.bloodEchoes += echoesGained;
 
     resetPlayerState();
-    $('rebirth-container').style.display = 'none';
+    
+    // Hide the modal
+    $('modal-overlay').style.display = 'none';
+
     saveGame();
     updateUI();
-    renderAllTalents(); 
+    renderAllTalents();
 
-    let deathMessage = cause === "old_age" 
-        ? "You have died of old age and are reborn."
-        : `Rebirth #${legacyState.rebirths} complete!`;
+    console.log(`Rebirth #${legacyState.rebirths} complete! You gained ${echoesGained} Blood Echoes.`);
     
-    console.log(`${deathMessage} You gained ${echoesGained} Blood Echoes.`);
+    // Restart the game loop
+    if (!gameLoopInterval) {
+        gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
+    }
 }
 
 function resetPlayerState() {
@@ -73,6 +109,7 @@ function resetPlayerState() {
         repWolf: 0,
         curseLevel: 0,
     };
+    rebirthModalShown = false; // Reset the flag for the new life
     playerState.completedJobs.add('Simple Villager');
     skillsState = JSON.parse(JSON.stringify(gameConfig.skillDefinitions));
     
@@ -84,6 +121,7 @@ function resetPlayerState() {
         }
     }
 }
+
 
 // --- TALENT SYSTEM ---
 
@@ -271,7 +309,7 @@ function renderAllJobs() { if ($('jobs')) { $('jobs').innerHTML = ''; gameConfig
 function gainSkillXp(skillName, xpGain) {
     if (!skillsState[skillName]) return;
     const skill = skillsState[skillName];
-    skill.xp += xpGain * (legacyState.xpBonus || 1);
+    skill.xp += xpGain;
     if (skill.xp >= skill.xpToNext) {
         while (skill.xp >= skill.xpToNext) {
             skill.xp -= skill.xpToNext;
@@ -325,16 +363,24 @@ function updateUI() {
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
     if ($('moonIcon')) $('moonIcon').textContent = isNight ? MOON_PHASES[0] : SUN_PHASES[0];
     applyVisualTheme();
+    // Do not re-render skills here for performance, only update values if needed
 }
 
 function gameTick() {
-    if (playerState.age >= gameConfig.ages.maxAge) { performRebirth("old_age"); return; }
+    // Check for rebirth or death conditions FIRST
+    if (!rebirthModalShown && playerState.age >= gameConfig.ages.rebirthAge) {
+        const cause = playerState.age >= gameConfig.ages.maxAge ? "old_age" : "choice";
+        showRebirthModal(cause);
+        rebirthModalShown = true; // Set flag to true so it doesn't show again
+        return; 
+    }
+
     playerState.day++;
     playerState.age += YEARS_PER_TICK;
     applyJobRewards();
     const event = triggerNightEvent();
     const eventSection = $('eventPanel');
-    if (playerState.age >= gameConfig.ages.rebirthAge) $('rebirth-container').style.display = 'block';
+    
     if (event) {
         const dayNumber = Math.floor(playerState.day / TICKS_PER_DAY);
         $('nightTitle').textContent = `Night of Day ${dayNumber}`;
@@ -353,7 +399,10 @@ function gameTick() {
     } else {
         eventSection.classList.remove('show');
     }
+    
     updateUI();
+    // Re-rendering everything every tick is slow. We do it more intelligently now.
+    renderAllSkills();
 }
 
 // --- SETUP FUNCTIONS ---
@@ -395,22 +444,22 @@ function setupThemeToggle() {
 async function initializeGame() {
     loadGame();
     try {
-        // CORRECTED PATHS FOR GITHUB PAGES
-        const configResponse = await fetch('./game_config.json');
+        const configResponse = await fetch('../game_config.json');
         if (!configResponse.ok) throw new Error('Failed to fetch game_config.json.');
         gameConfig = await configResponse.json();
         
-        // This is no longer needed as we moved the file
-        // const playerResponse = await fetch('./player.json');
-
-        resetPlayerState();
+        resetPlayerState(); 
         setupTabs();
         setupThemeToggle();
-        $('rebirth-button').addEventListener('click', () => performRebirth("choice"));
+        
+        // FIXED: Attach event listener correctly inside initialization
+        $('modal-rebirth-button').addEventListener('click', performRebirth);
+
         applyVisualTheme();
-        updateUI();
+        updateUI(); 
         renderAllJobs();
         renderAllTalents();
+        
         setInterval(saveGame, 10000);
         gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
     } catch (error) {
