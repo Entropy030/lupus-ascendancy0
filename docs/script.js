@@ -66,6 +66,7 @@ function showRebirthModal(cause) {
     modalOverlay.style.display = 'flex';
 }
 
+
 function performRebirth() {
     let totalLevels = 0;
     for (const skill in skillsState) {
@@ -434,8 +435,10 @@ function setupThemeToggle() {
 async function initializeGame() {
     loadGame();
     try {
-        const configResponse = await fetch('./game_config.json'); // CORRECTED PATH
-        if (!configResponse.ok) throw new Error('Failed to fetch game_config.json.');
+        // FINAL GITHUB PAGES PATH FIX
+        const configPath = 'game_config.json';
+        const configResponse = await fetch(configPath);
+        if (!configResponse.ok) throw new Error(`Failed to fetch ${configPath}.`);
         gameConfig = await configResponse.json();
         
         resetPlayerState(); 
