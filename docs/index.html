@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lupus Ascendancy — Idle Game</title>
-    <!-- Single stylesheet for all styles -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="night"> <!-- Default to night theme; JS will manage this -->
+<body class="night">
     <header>
         <div id="moonIcon">🌑</div>
         <h1>Lupus Ascendancy</h1>
@@ -28,10 +27,11 @@
         <nav>
             <button data-tab="stats" class="active">Stats</button>
             <button data-tab="skills">Skills</button>
-            <!-- New Jobs Tab Button -->
             <button data-tab="jobs">Jobs</button>
             <button data-tab="events">Events</button>
             <button data-tab="lore">Lore</button>
+            <!-- New Settings Tab Button -->
+            <button data-tab="settings">Settings</button>
         </nav>
 
         <!-- Stats Tab -->
@@ -51,18 +51,15 @@
         <section id="skills">
             <h2>General Skills</h2>
             <div id="general-skills" class="skill-section"></div>
-            
             <h2>Human Skills</h2>
             <div id="human-skills" class="skill-section"></div>
-
             <h2>Wolf Skills</h2>
             <div id="wolf-skills" class="skill-section"></div>
-            
             <h2>Job Skills</h2>
             <div id="job-skills" class="skill-section"></div>
         </section>
 
-        <!-- New Jobs Tab Section -->
+        <!-- Jobs Tab -->
         <section id="jobs">
             <!-- Job cards will be dynamically inserted here by script.js -->
         </section>
@@ -81,13 +78,27 @@
                 <p>Ancient tales whisper through the trees, waiting to be discovered...</p>
             </div>
         </section>
+        
+        <!-- New Settings Tab Section -->
+        <section id="settings">
+            <div class="card">
+                <h2>Settings</h2>
+                <div class="setting-item">
+                    <label for="theme-toggle">Visual Theme</label>
+                    <div id="theme-toggle" class="button-group">
+                        <button data-theme="auto" class="active">Auto</button>
+                        <button data-theme="day">Day</button>
+                        <button data-theme="night">Night</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <span>v0.2 — Interactive</span>
+        <span>v0.7 — QoL</span>
     </footer>
 
-    <!-- Single script for all frontend logic -->
     <script src="script.js" defer></script>
 </body>
 </html>

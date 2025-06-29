@@ -1,217 +1,115 @@
-/* Base Variables & Styles */
-:root {
-    --bg-color: #0b0f16; /* Default to night */
-    --text-color: #f0e8dc; /* Default to night */
-    --accent: #a4b97f;
-    --card-bg: rgba(255, 255, 255, 0.04);
-    --font-main: 'Georgia', serif;
-    --moon-glow: 0 0 12px rgba(255, 225, 160, 0.4);
-    --bar-color: #d9493d; /* Default to night bar color (blood red) */
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: var(--font-main);
-    color: var(--text-color);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    /* Default to night theme background, will be overridden by .day class */
-    background: var(--bg-color) url('assets/forest-silhouette.png') no-repeat center bottom / cover;
-    transition: background 1s ease, color 0.5s ease;
-}
-
-#appContainer {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-/* Header */
-header, main, footer {
-    position: relative;
-    z-index: 1;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 2vh;
-}
-
-#moonIcon {
-    font-size: 4rem;
-    /* This animation provides continuous visual flair. The JS will change the emoji character. */
-    animation: rotateMoon 30s linear infinite;
-    text-shadow: var(--moon-glow);
-    margin-bottom: 0.5rem;
-}
-
-header h1 {
-    font-size: 2.2rem;
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    font-weight: 400;
-}
-
-@keyframes rotateMoon {
-    0% { transform: rotate(0); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Main Content & Cards */
-main {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto;
-    padding: 3vh 4vw;
-}
-
-.card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 1rem 1.5rem;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
-}
-
-.stat {
-    margin-bottom: 1rem;
-}
-
-.stat .label {
-    margin-bottom: 0.3rem;
-}
-
-/* Progress Bars */
-.progress {
-    background: rgba(255, 255, 255, 0.1);
-    height: 1rem;
-    border-radius: 0.5rem;
-    overflow: hidden;
-}
-
-.bar {
-    height: 100%;
-    width: 0;
-    background: var(--bar-color);
-    transition: width 1s ease, background 0.5s ease;
-}
-
-/* Navigation & Tabs */
-nav {
-    display: flex;
-    justify-content: space-between;
-    margin: 1rem auto;
-    max-width: 100%;
-    gap: 0.5rem;
-}
-
-nav button {
-    flex: 1;
-    padding: 0.75rem;
-    background: var(--card-bg);
-    border: 1px solid transparent;
-    border-radius: 6px;
-    color: var(--text-color);
-    font-family: var(--font-main);
-    cursor: pointer;
-    transition: background 0.3s, border 0.3s;
-}
-
-nav button.active {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid var(--accent);
-}
-
-section {
-    display: none;
-    margin-top: 1rem;
-}
-
-section.active {
-    display: block;
-}
-
-/* Skills Section */
-.skill-section {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-}
-
-.skill-card {
-  margin-bottom: 1rem;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: border 0.3s, box-shadow 0.3s;
-}
-
-.skill-card .progress-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-  margin-bottom: 0.3rem;
-}
-
-.skill-card.active-skill {
-  border: 1px solid var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-}
-
-/* Event Panel */
-#eventPanel {
-    min-height: 6vh;
-    transition: opacity 0.6s ease;
-    opacity: 0;
-    font-size: 1.25rem;
-}
-
-#eventPanel.show {
-    opacity: 1;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    margin-top: auto;
-    opacity: 0.5;
-    font-size: 0.75rem;
-    padding: 1.5rem 0 0.5rem;
-}
-
-/* --- THEME OVERRIDES --- */
-
-/* Day Theme */
-body.day {
-    --text-color: #000000;
-    --bar-color: #d4a037; /* Gold */
-    background: url('assets/forest-day.png') no-repeat center bottom / cover;
-    background-color: #e0f7fa;
-}
-
-body.day .card {
-    background: rgba(255, 255, 255, 0.3);
-    color: var(--text-color);
-}
-
-/* Night Theme */
-body.night {
-    --text-color: #f0e8dc;
-    --bar-color: #d9493d; /* Blood red */
-    background: url('assets/forest-silhouette.png') no-repeat center bottom / cover;
-    background-color: #0b0f16;
-}
-
-body.night .card {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-color);
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    header h1 { font-size: 1.75rem; }
-    #moonIcon { font-size: 3rem; }
-    nav button { font-size: 0.9rem; }
-}
+/* --- NEW: Universal Sizing Rule --- */
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  /* Base Variables & Styles */
+  :root {
+      --bg-color: #0b0f16; /* Default to night */
+      --text-color: #f0e8dc; /* Default to night */
+      --accent: #a4b97f;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --font-main: 'Georgia', serif;
+      --moon-glow: 0 0 12px rgba(255, 225, 160, 0.4);
+      --bar-color: #d9493d; /* Default to night bar color (blood red) */
+  }
+  
+  html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-main);
+      color: var(--text-color);
+      overflow-x: hidden; /* Prevent horizontal scroll */
+      overflow-y: auto; /* Allow vertical scroll */
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-color) url('assets/forest-silhouette.png') no-repeat center bottom / cover;
+      transition: background 1s ease, color 0.5s ease;
+  }
+  
+  /* Header & Main Structure */
+  header, main, footer { position: relative; z-index: 1; width: 100%; }
+  header { text-align: center; margin-bottom: 2vh; padding-top: 2vh; }
+  #moonIcon { font-size: 4rem; animation: rotateMoon 30s linear infinite; text-shadow: var(--moon-glow); margin-bottom: 0.5rem; }
+  header h1 { font-size: 2.2rem; text-shadow: 0 0 8px rgba(0, 0, 0, 0.3); font-weight: 400; }
+  @keyframes rotateMoon { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+  main { flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; padding: 2vh 4vw; }
+  .card { background: var(--card-bg); border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 0 8px rgba(0, 0, 0, 0.25); margin-bottom: 1rem; }
+  .stat { margin-bottom: 1rem; }
+  .stat .label { margin-bottom: 0.3rem; }
+  
+  /* Progress Bars */
+  .progress { background: rgba(255, 255, 255, 0.1); height: 1rem; border-radius: 0.5rem; overflow: hidden; }
+  .bar { height: 100%; width: 0; background: var(--bar-color); transition: width 1s ease, background 0.5s ease; }
+  
+  /* Navigation & Tabs */
+  nav { display: flex; justify-content: center; flex-wrap: wrap; margin: 1rem auto; max-width: 100%; gap: 0.5rem; }
+  nav button { flex: 1 1 80px; padding: 0.75rem 0.5rem; background: var(--card-bg); border: 1px solid transparent; border-radius: 6px; color: var(--text-color); font-family: var(--font-main); cursor: pointer; transition: background 0.3s, border 0.3s; text-align: center;}
+  nav button.active { background: rgba(255, 255, 255, 0.07); border: 1px solid var(--accent); }
+  section { display: none; margin-top: 1rem; }
+  section.active { display: block; }
+  
+  /* Responsive Grid for Jobs & Skills */
+  section#jobs.active, .skill-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+  }
+  
+  /* Job Card Styles */
+  .job-card { display: flex; flex-direction: column; gap: 0.5rem; }
+  .job-card .job-title { font-size: 1.25rem; font-weight: bold; }
+  .job-card .job-details { font-size: 0.9rem; opacity: 0.8; }
+  .job-card .job-action button { width: 100%; padding: 0.75rem; font-family: var(--font-main); background: var(--accent); color: #0b0f16; border: none; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
+  .job-card .job-action button:hover { background: #c2d4a5; }
+  .job-card.locked { opacity: 0.5; background: rgba(0, 0, 0, 0.2); }
+  .job-card.locked .job-action button { background: #555; color: #999; cursor: not-allowed; }
+  .job-card.active-job { border: 1px solid var(--accent); box-shadow: 0 0 12px var(--accent); }
+  
+  /* Skills Section */
+  .skill-card { margin-bottom: 0; cursor: pointer; border: 1px solid transparent; transition: border 0.3s, box-shadow 0.3s; }
+  .skill-card .progress-label { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.3rem; }
+  .skill-card.active-skill { border: 1px solid var(--accent); box-shadow: 0 0 8px var(--accent); }
+  
+  /* Event Panel */
+  #eventPanel { min-height: 6vh; transition: opacity 0.6s ease; opacity: 0; font-size: 1.25rem; }
+  #eventPanel.show { opacity: 1; }
+  
+  /* Settings Styles */
+  .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; flex-wrap: wrap; gap: 0.5rem;}
+  .setting-item label { font-size: 1.1rem; }
+  .button-group { display: flex; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; }
+  .button-group button { background: transparent; border: none; color: var(--text-color); padding: 0.5rem 1rem; cursor: pointer; border-left: 1px solid rgba(255, 255, 255, 0.2); transition: background 0.3s; }
+  .button-group button:first-child { border-left: none; }
+  .button-group button.active { background: var(--accent); color: #0b0f16; }
+  
+  /* Footer */
+  footer { text-align: center; margin-top: auto; opacity: 0.5; font-size: 0.75rem; padding: 1.5rem 0 0.5rem; }
+  
+  /* Theme Overrides */
+  body.day { --text-color: #000000; --bar-color: #d4a037; background: url('assets/forest-day.png') no-repeat center bottom / cover; background-color: #e0f7fa; }
+  body.day .card { background: rgba(255, 255, 255, 0.3); color: var(--text-color); }
+  body.night { --text-color: #f0e8dc; --bar-color: #d9493d; background: url('assets/forest-silhouette.png') no-repeat center bottom / cover; background-color: #0b0f16; }
+  body.night .card { background: rgba(255, 255, 255, 0.05); color: var(--text-color); }
+  
+  /* --- RESPONSIVE STYLES --- */
+  
+  /* Tablet and larger phones */
+  @media (max-width: 768px) {
+      header h1 { font-size: 1.75rem; }
+      #moonIcon { font-size: 3rem; }
+      nav button { font-size: 0.9rem; }
+  }
+  
+  /* Small phones */
+  @media (max-width: 480px) {
+      header h1 { font-size: 1.5rem; }
+      #moonIcon { font-size: 2.5rem; }
+      nav button { font-size: 0.8rem; flex-basis: 90px; } /* Adjust basis for smaller screens */
+      .setting-item { flex-direction: column; align-items: flex-start; }
+  }
+  
