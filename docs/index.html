@@ -18,7 +18,6 @@
     </div>
 
     <header>
-        <!-- UPDATED: Container now holds two wrappers, one for each icon -->
         <div id="timeIconContainer">
             <div id="sun-icon-wrapper"></div>
             <div id="moon-icon-wrapper"></div>
@@ -42,6 +41,7 @@
             <button data-tab="stats" class="active">Stats</button>
             <button data-tab="skills">Skills</button>
             <button data-tab="jobs">Jobs</button>
+            <button data-tab="housing">Housing</button>
             <button data-tab="talents">Talents</button>
             <button data-tab="events">Events</button>
             <button data-tab="lore">Lore</button>
@@ -56,12 +56,18 @@
                 <div>Wolf Rep: <span id="repWolf">0</span></div>
                 <br>
                 <h2>Progression</h2>
+                <div>Current Housing: <span id="currentHousing">None</span></div>
                 <div>Curse Level: <span id="curseLevel">0</span></div>
                 <div>Rebirths: <span id="rebirths">0</span></div>
                 <div>🩸 Blood Echoes: <span id="bloodEchoes">0</span></div>
             </div>
         </section>
         
+        <!-- Housing Tab -->
+        <section id="housing">
+            <!-- Housing cards will be dynamically inserted here -->
+        </section>
+
         <!-- Talents Tab Section -->
         <section id="talents">
             <!-- Talent cards will be dynamically inserted here -->
@@ -115,7 +121,7 @@
     </main>
 
     <footer>
-        <span>v1.1 — Quality of Life</span>
+        <span>v1.2 — Housing System</span>
     </footer>
 
     <script src="script.js" defer></script>

@@ -115,5 +115,12 @@
         "werewolf": { "repWolf": 3, "curseLevel": 1 }
       }
     }
+  ],
+  "housingTiers": [
+    { "id": "tier1", "name": "Torn Tent", "cost": 5000, "maxAgeBonus": 2, "description": "A flimsy shelter. Better than nothing, but not by much." },
+    { "id": "tier2", "name": "Forest Lean-to", "cost": 25000, "maxAgeBonus": 3, "description": "A crude but sturdy shelter built against a rock outcropping." },
+    { "id": "tier3", "name": "Rustic Cottage", "cost": 100000, "maxAgeBonus": 5, "description": "A small, defensible cottage on the edge of the village." },
+    { "id": "tier4", "name": "Townhouse", "cost": 500000, "maxAgeBonus": 5, "description": "A respectable home within the village walls." },
+    { "id": "tier5", "name": "Fortified Manor", "cost": 2000000, "maxAgeBonus": 10, "description": "A large, stone manor. A symbol of power and permanence." }
   ]
 }

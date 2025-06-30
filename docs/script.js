@@ -48,9 +48,9 @@ const ICON_MOON = `
 </svg>
 `;
 
-const TICK_INTERVAL = 2000;
+const TICK_INTERVAL = 100;
 const TICKS_PER_DAY = 24;
-const YEARS_PER_TICK = 0.08;
+const YEARS_PER_TICK = 0.008;
 
 let gameConfig = {};
 let playerState = {};
@@ -63,12 +63,13 @@ let legacyState = {
 let skillsState = {};
 let gameLoopInterval = null;
 let visualTheme = 'auto';
-let lastIsNightState = null; // NEW: Tracks the previous day/night state
+let lastIsNightState = null;
 
 let rebirthModalShown = false; 
 
 function $(id) {
-    return document.getElementById(id);
+    const sanitizedId = id.replace(/\s+/g, '-');
+    return document.getElementById(sanitizedId);
 }
 
 // --- SAVE & LOAD ---
@@ -124,8 +125,10 @@ function performRebirth() {
     resetPlayerState();
     $('modal-overlay').style.display = 'none';
     saveGame();
-    updateUI();
+    renderAllJobs();
     renderAllTalents();
+    renderAllHousing();
+    updateUI();
     
     if (!gameLoopInterval) {
         gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
@@ -142,6 +145,7 @@ function resetPlayerState() {
         repVillage: 0,
         repWolf: 0,
         curseLevel: 0,
+        currentHousingTier: -1, // -1 means no housing
     };
     rebirthModalShown = false; 
     playerState.completedJobs.add('Simple Villager');
@@ -151,7 +155,7 @@ function resetPlayerState() {
     if (lingeringKnowledge) {
         const talentInfo = gameConfig.talents.find(t => t.id === 'lingering_knowledge');
         for(const skill in skillsState) {
-            gainSkillXp(skill, talentInfo.value, true); // Pass true to ignore xpBonus
+            gainSkillXp(skill, talentInfo.value, true);
         }
     }
 }
@@ -213,6 +217,79 @@ function renderAllTalents() {
     }
 }
 
+// --- HOUSING SYSTEM ---
+
+function purchaseHousing(tierIndex) {
+    if (tierIndex !== playerState.currentHousingTier + 1) return;
+    const tier = gameConfig.housingTiers[tierIndex];
+    if (!tier || playerState.coins < tier.cost) return;
+
+    playerState.coins -= tier.cost;
+    playerState.currentHousingTier = tierIndex;
+    renderAllHousing();
+    updateUI();
+}
+
+function createHousingCard(tier, index) {
+    const card = document.createElement('div');
+    card.className = 'card job-card'; // Re-use job-card style for consistency
+    const isPurchased = playerState.currentHousingTier >= index;
+    const canAfford = playerState.coins >= tier.cost;
+    const isNext = playerState.currentHousingTier === index - 1;
+
+    if (isPurchased) card.classList.add('active-job'); // Use active-job style for purchased
+    if (!isNext || !canAfford) card.classList.add('locked');
+
+    const title = document.createElement('div');
+    title.className = 'job-title';
+    title.textContent = tier.name;
+    
+    const desc = document.createElement('div');
+    desc.className = 'job-details';
+    desc.textContent = tier.description;
+
+    const bonus = document.createElement('div');
+    bonus.className = 'job-details';
+    bonus.textContent = `Benefit: +${tier.maxAgeBonus} years to max age.`;
+
+    const cost = document.createElement('div');
+    cost.className = 'job-details';
+    cost.innerHTML = `Cost: ${tier.cost.toLocaleString()} Coins`;
+
+    const action = document.createElement('div');
+    action.className = 'job-action';
+    const button = document.createElement('button');
+    button.textContent = isPurchased ? 'Purchased' : 'Purchase';
+    button.disabled = isPurchased || !isNext || !canAfford;
+
+    if (!isPurchased) {
+        button.onclick = () => purchaseHousing(index);
+    }
+    action.appendChild(button);
+    card.append(title, desc, bonus, cost, action);
+    return card;
+}
+
+function renderAllHousing() {
+    const container = $('housing');
+    if (container) {
+        container.innerHTML = '';
+        gameConfig.housingTiers.forEach((tier, index) => {
+            container.appendChild(createHousingCard(tier, index));
+        });
+    }
+}
+
+function getEffectiveMaxAge() {
+    let maxAge = gameConfig.ages.maxAge;
+    if (playerState.currentHousingTier > -1) {
+        for (let i = 0; i <= playerState.currentHousingTier; i++) {
+            maxAge += gameConfig.housingTiers[i].maxAgeBonus;
+        }
+    }
+    return maxAge;
+}
+
 // --- THEME ---
 function applyVisualTheme() {
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
@@ -234,8 +311,8 @@ function applyJobRewards() {
     const jobIsActiveNow = (job.type === 'human' && !isNight) || (job.type === 'werewolf' && isNight);
     if (!jobIsActiveNow) return;
 
-    let coinGain = 10;
-    const xpGain = 5;
+    let coinGain = 1;
+    const xpGain = 0.5;
     const primalGreedLevel = legacyState.purchasedTalents['primal_greed'] || 0;
     if (primalGreedLevel > 0) coinGain *= (1 + (primalGreedLevel * 0.1));
 
@@ -250,12 +327,14 @@ function applyJobRewards() {
         const feralAffinityLevel = legacyState.purchasedTalents['feral_affinity'] || 0;
         if(vRep > 0 && humanityCharmLevel > 0) vRep *= (1 + (humanityCharmLevel * 0.1));
         if(wRep > 0 && feralAffinityLevel > 0) wRep *= (1 + (feralAffinityLevel * 0.1));
-        playerState.repVillage += vRep;
-        playerState.repWolf += wRep;
+        playerState.repVillage += vRep / 10;
+        playerState.repWolf += wRep / 10;
     }
 }
 
 function triggerNightEvent() {
+    if (playerState.day % TICKS_PER_DAY !== 0) return null;
+
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
     if (!isNight) return null;
     const currentJob = gameConfig.jobs.find(j => j.name === playerState.activeJob);
@@ -328,35 +407,53 @@ function renderAllJobs() { if ($('jobs')) { $('jobs').innerHTML = ''; gameConfig
 function gainSkillXp(skillName, xpGain, ignoreBonus = false) {
     if (!skillsState[skillName]) return;
     const skill = skillsState[skillName];
-    const finalXpGain = ignoreBonus ? xpGain : xpGain * (legacyState.xpBonus || 1); // Fallback to 1 if xpBonus is not defined
+    const finalXpGain = ignoreBonus ? xpGain : xpGain * (legacyState.xpBonus || 1);
+    
     skill.xp += finalXpGain;
-    if (skill.xp >= skill.xpToNext) {
-        while (skill.xp >= skill.xpToNext) {
-            skill.xp -= skill.xpToNext;
-            skill.level += 1;
-            skill.xpToNext = Math.round(skill.xpToNext * 1.5);
-        }
-        renderAllSkills();
+
+    let leveledUp = false;
+    while (skill.xp >= skill.xpToNext) {
+        skill.xp -= skill.xpToNext;
+        skill.level += 1;
+        skill.xpToNext = Math.round(skill.xpToNext * 1.5);
+        leveledUp = true;
+    }
+    
+    if (leveledUp) {
         renderAllJobs();
     }
 }
 
+// --- EFFICIENT SKILL RENDERING LOGIC ---
 
 function renderSkillCard(name, skill) {
     const card = document.createElement('div');
     card.className = 'card skill-card';
     card.title = skill.effect;
+
     const label = document.createElement('div');
     label.className = 'progress-label';
-    label.innerHTML = `<span>${name} (Lv ${skill.level})</span><span>${skill.xp.toFixed(0)}/${skill.xpToNext}</span>`;
+
+    const nameSpan = document.createElement('span');
+    const sanitizedName = name.replace(/\s+/g, '-');
+    nameSpan.id = `skill-name-${sanitizedName}`;
+    nameSpan.textContent = `${name} (Lv ${skill.level})`;
+
+    const xpSpan = document.createElement('span');
+    xpSpan.id = `skill-xp-${sanitizedName}`;
+    xpSpan.textContent = `${skill.xp.toFixed(0)}/${skill.xpToNext}`;
+
+    label.append(nameSpan, xpSpan);
+
     const barContainer = document.createElement('div');
     barContainer.className = 'progress';
     const bar = document.createElement('div');
     bar.className = 'bar';
+    bar.id = `skill-bar-${sanitizedName}`;
     bar.style.width = `${(skill.xp / skill.xpToNext) * 100}%`;
+    
     barContainer.appendChild(bar);
-    card.appendChild(label);
-    card.appendChild(barContainer);
+    card.append(label, barContainer);
     return card;
 }
 
@@ -369,26 +466,49 @@ function renderAllSkills() {
     }
 }
 
+function updateSkill(name, skill) {
+    const sanitizedName = name.replace(/\s+/g, '-');
+    const nameEl = $(`skill-name-${sanitizedName}`);
+    if (nameEl) nameEl.textContent = `${name} (Lv ${skill.level})`;
+
+    const xpEl = $(`skill-xp-${sanitizedName}`);
+    if (xpEl) xpEl.textContent = `${skill.xp.toFixed(0)}/${skill.xpToNext}`;
+
+    const barEl = $(`skill-bar-${sanitizedName}`);
+    if (barEl) barEl.style.width = `${(skill.xp / skill.xpToNext) * 100}%`;
+}
+
+function updateAllSkills() {
+    for (const [name, skill] of Object.entries(skillsState)) {
+        updateSkill(name, skill);
+    }
+}
+
+
 // --- UI & GAME LOOP ---
 
 function updateUI() {
     if ($('age')) $('age').textContent = Math.floor(playerState.age);
     if ($('job')) $('job').textContent = playerState.activeJob || 'None';
-    if ($('coinNum')) $('coinNum').textContent = Math.floor(playerState.coins);
+    if ($('coinNum')) $('coinNum').textContent = Math.floor(playerState.coins).toLocaleString();
     if ($('coinBar')) $('coinBar').style.width = `${(playerState.coins % 100)}%`;
     if ($('repVillage')) $('repVillage').textContent = playerState.repVillage.toFixed(2);
     if ($('repWolf')) $('repWolf').textContent = playerState.repWolf.toFixed(2);
     if ($('curseLevel')) $('curseLevel').textContent = playerState.curseLevel;
     if ($('rebirths')) $('rebirths').textContent = legacyState.rebirths;
     if ($('bloodEchoes')) $('bloodEchoes').textContent = legacyState.bloodEchoes;
+
+    const currentHousingName = playerState.currentHousingTier > -1 ? gameConfig.housingTiers[playerState.currentHousingTier].name : 'None';
+    if ($('currentHousing')) $('currentHousing').textContent = currentHousingName;
     
     applyVisualTheme();
-    renderAllSkills();
+    updateAllSkills();
 }
 
 function gameTick() {
-    if (!rebirthModalShown && playerState.age >= gameConfig.ages.rebirthAge) {
-        const cause = playerState.age >= gameConfig.ages.maxAge ? "old_age" : "choice";
+    const effectiveMaxAge = getEffectiveMaxAge();
+    if (!rebirthModalShown && (playerState.age >= gameConfig.ages.rebirthAge || playerState.age >= effectiveMaxAge)) {
+        const cause = playerState.age >= effectiveMaxAge ? "old_age" : "choice";
         showRebirthModal(cause);
         rebirthModalShown = true; 
         return; 
@@ -441,8 +561,8 @@ function setupTabs() {
             if (target) target.classList.add('active');
             switch(btn.dataset.tab) {
                 case 'jobs': renderAllJobs(); break;
-                case 'skills': renderAllSkills(); break;
                 case 'talents': renderAllTalents(); break;
+                case 'housing': renderAllHousing(); break;
             }
         });
     });
@@ -478,6 +598,9 @@ async function initializeGame() {
         setupThemeToggle();
         $('modal-rebirth-button').addEventListener('click', performRebirth);
 
+        renderAllSkills();
+        renderAllHousing();
+        
         applyVisualTheme();
         updateUI(); 
         renderAllJobs();
