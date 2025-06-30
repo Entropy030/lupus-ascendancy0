@@ -48,7 +48,7 @@ const ICON_MOON = `
 </svg>
 `;
 
-const TICK_INTERVAL = 100;
+const TICK_INTERVAL = 50;
 const TICKS_PER_DAY = 24;
 const YEARS_PER_TICK = 0.008;
 
