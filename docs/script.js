@@ -1,6 +1,5 @@
 // --- GLOBAL STATE & CONSTANTS ---
 
-// NEW: Animated SVG definitions for icons
 const ICON_SUN = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" id="sun-icon-svg">
   <defs>
@@ -16,7 +15,6 @@ const ICON_SUN = `
     <circle cx="50" cy="50" r="25" fill="#FFD700" filter="url(#sun-glow-filter)"/>
   </g>
   <g class="sun-rays">
-    <!-- Group of rays to rotate -->
     <line x1="50" y1="10" x2="50" y2="25" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
     <line x1="50" y1="75" x2="50" y2="90" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
     <line x1="10" y1="50" x2="25" y2="50" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
@@ -41,9 +39,8 @@ const ICON_MOON = `
       </feMerge>
     </filter>
   </defs>
-  <g class="moon-group" filter="url(#moon-glow-filter)">
+  <g transform="translate(5 5) scale(0.9)" class="moon-group" filter="url(#moon-glow-filter)">
     <path class="moon-path" d="M 75 50 A 40 40 0 1 1 50 25 A 30 30 0 1 0 75 50 Z" fill="#F1FAEE"/>
-    <!-- Animated Stars -->
     <circle class="star" cx="20" cy="20" r="2" fill="#F1FAEE"/>
     <circle class="star" cx="35" cy="70" r="1.5" fill="#F1FAEE"/>
     <circle class="star" cx="80" cy="80" r="1" fill="#F1FAEE"/>
@@ -66,6 +63,7 @@ let legacyState = {
 let skillsState = {};
 let gameLoopInterval = null;
 let visualTheme = 'auto';
+let lastIsNightState = null; // NEW: Tracks the previous day/night state
 
 let rebirthModalShown = false; 
 
@@ -384,13 +382,6 @@ function updateUI() {
     if ($('rebirths')) $('rebirths').textContent = legacyState.rebirths;
     if ($('bloodEchoes')) $('bloodEchoes').textContent = legacyState.bloodEchoes;
     
-    // UPDATED: Use SVG icons instead of emojis
-    const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
-    const iconContainer = $('timeIconContainer');
-    if (iconContainer) {
-        iconContainer.innerHTML = isNight ? ICON_MOON : ICON_SUN;
-    }
-
     applyVisualTheme();
     renderAllSkills();
 }
@@ -404,6 +395,14 @@ function gameTick() {
     }
     playerState.day++;
     playerState.age += YEARS_PER_TICK;
+
+    const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
+    if (isNight !== lastIsNightState) {
+        $('sun-icon-wrapper').style.display = isNight ? 'none' : 'block';
+        $('moon-icon-wrapper').style.display = isNight ? 'block' : 'none';
+        lastIsNightState = isNight;
+    }
+
     applyJobRewards();
     const event = triggerNightEvent();
     const eventSection = $('eventPanel');
@@ -471,6 +470,9 @@ async function initializeGame() {
         if (!configResponse.ok) throw new Error('Failed to fetch game_config.json.');
         gameConfig = await configResponse.json();
         
+        $('sun-icon-wrapper').innerHTML = ICON_SUN;
+        $('moon-icon-wrapper').innerHTML = ICON_MOON;
+
         resetPlayerState(); 
         setupTabs();
         setupThemeToggle();
@@ -481,6 +483,9 @@ async function initializeGame() {
         renderAllJobs();
         renderAllTalents();
         
+        lastIsNightState = null;
+        gameTick(); 
+
         setInterval(saveGame, 10000);
         gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
     } catch (error) {
