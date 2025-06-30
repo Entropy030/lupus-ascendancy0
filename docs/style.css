@@ -32,70 +32,25 @@ html {
       transition: background 1s ease, color 0.5s ease;
   }
   
-  /* --- NEW: Modal Styles --- */
-  #modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-  }
-  .modal-content {
-      background: #1a1a1a; /* Darker than normal cards */
-      padding: 2rem;
-      border-radius: 12px;
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-      border: 1px solid var(--talent-accent);
-      box-shadow: 0 0 20px rgba(142, 110, 149, 0.5);
-  }
-  .modal-content h2 {
-      color: var(--talent-accent);
-      margin-top: 0;
-  }
-  .modal-content p {
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-  }
-  #modal-stats {
-      margin-bottom: 1.5rem;
-      font-weight: bold;
-  }
-  #modal-rebirth-button {
-      width: 100%;
-      padding: 0.75rem;
-      font-family: var(--font-main);
-      background: #e63946;
-      color: #f1faee;
-      border: none;
-      border-radius: 6px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-  }
-  #modal-rebirth-button:hover {
-      background: #d00000;
-      transform: scale(1.02);
-  }
-  /* --- END Modal Styles --- */
-  
-  
   /* Header & Main Structure */
   header, main, footer { position: relative; z-index: 1; width: 100%; }
   header { text-align: center; margin-bottom: 2vh; padding-top: 2vh; }
-  #moonIcon { 
-      font-size: 4rem; 
-      text-shadow: var(--moon-glow); 
-      margin-bottom: 0.5rem; 
+  
+  /* UPDATED: Styling for the new SVG icon container */
+  #timeIconContainer {
+      height: 4rem;
+      width: 4rem;
+      margin: 0 auto 0.5rem auto;
+      /* The filter property is removed as the SVGs now have their own internal glow effects */
   }
+  #timeIconContainer svg {
+      width: 100%;
+      height: 100%;
+  }
+  
+  
   header h1 { font-size: 2.2rem; text-shadow: 0 0 8px rgba(0, 0, 0, 0.3); font-weight: 400; }
+  
   main { flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; padding: 2vh 4vw; }
   .card { background: var(--card-bg); border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 0 8px rgba(0, 0, 0, 0.25); margin-bottom: 1rem; }
   .stat { margin-bottom: 1rem; }
@@ -130,12 +85,7 @@ html {
   .job-card.active-job { border: 1px solid var(--accent); box-shadow: 0 0 12px var(--accent); }
   
   /* Talent Card Styles */
-  .talent-card {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      border-left: 4px solid var(--talent-accent);
-  }
+  .talent-card { display: flex; flex-direction: column; gap: 0.5rem; border-left: 4px solid var(--talent-accent); }
   .talent-card .talent-title { font-size: 1.2rem; font-weight: bold; color: var(--talent-accent); }
   .talent-card .talent-desc { font-size: 0.9rem; opacity: 0.9; flex-grow: 1; }
   .talent-card .talent-cost { font-weight: bold; }
@@ -143,6 +93,10 @@ html {
   .talent-action button { width: 100%; padding: 0.75rem; font-family: var(--font-main); background: var(--talent-accent); color: white; border: none; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
   .talent-card.maxed button { background: #555; color: #999; cursor: not-allowed; }
   .talent-card.unaffordable button { opacity: 0.6; cursor: not-allowed; }
+  
+  /* Rebirth Button Style */
+  #modal-rebirth-button { width: 100%; padding: 0.75rem; font-family: var(--font-main); background: #e63946; color: #f1faee; border: none; border-radius: 6px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: background 0.3s, transform 0.2s; }
+  #modal-rebirth-button:hover { background: #d00000; transform: scale(1.02); }
   
   /* Skills Section */
   .skill-card { margin-bottom: 0; cursor: pointer; border: 1px solid transparent; transition: border 0.3s, box-shadow 0.3s; }
@@ -167,12 +121,66 @@ html {
   /* Theme Overrides */
   body.day { --text-color: #000000; --bar-color: #d4a037; background: url('assets/forest-day.png') no-repeat center bottom / cover; background-color: #e0f7fa; }
   body.day .card { background: rgba(255, 255, 255, 0.3); color: var(--text-color); }
-  body.day #moonIcon { --moon-glow: 0 0 15px rgba(255, 190, 0, 0.7); }
   
   body.night { --text-color: #f0e8dc; --bar-color: #d9493d; background: url('assets/forest-silhouette.png') no-repeat center bottom / cover; background-color: #0b0f16; }
   body.night .card { background: rgba(255, 255, 255, 0.05); color: var(--text-color); }
   
   /* RESPONSIVE STYLES */
-  @media (max-width: 768px) { header h1 { font-size: 1.75rem; } #moonIcon { font-size: 3rem; } nav button { font-size: 0.9rem; } }
-  @media (max-width: 480px) { header h1 { font-size: 1.5rem; } #moonIcon { font-size: 2.5rem; } nav button { font-size: 0.8rem; flex-basis: 90px; } .setting-item { flex-direction: column; align-items: flex-start; } }
-  
+  @media (max-width: 768px) { header h1 { font-size: 1.75rem; } #timeIconContainer { height: 3rem; width: 3rem; } nav button { font-size: 0.9rem; } }
+  @media (max-width: 480px) { header h1 { font-size: 1.5rem; } #timeIconContainer { height: 2.5rem; width: 2.5rem; } nav button { font-size: 0.8rem; flex-basis: 90px; } .setting-item { flex-direction: column; align-items: flex-start; } }
+
+/* --- NEW: Icon Animation --- */
+
+/* Sun Icon Animation */
+@keyframes rotateRays {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseBody {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+#sun-icon-svg .sun-rays {
+  transform-origin: 50% 50%;
+  animation: rotateRays 45s linear infinite;
+}
+
+#sun-icon-svg .sun-body {
+  transform-origin: 50% 50%;
+  animation: pulseBody 5s ease-in-out infinite;
+}
+
+
+/* Moon Icon Animation */
+@keyframes pulseGlow {
+  0% { filter: drop-shadow(0 0 4px rgba(241, 250, 238, 0.4)); }
+  50% { filter: drop-shadow(0 0 12px rgba(241, 250, 238, 0.8)); }
+  100% { filter: drop-shadow(0 0 4px rgba(241, 250, 238, 0.4)); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.7; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+#moon-icon-svg .moon-group {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+#moon-icon-svg .star {
+  transform-origin: center;
+  animation: twinkle 3s ease-in-out infinite;
+}
+/* Stagger the star animations */
+#moon-icon-svg .star:nth-child(2) {
+  animation-delay: 0.5s;
+}
+#moon-icon-svg .star:nth-child(3) {
+  animation-delay: 1.2s;
+}
+#moon-icon-svg .star:nth-child(4) {
+  animation-delay: 2.1s;
+}

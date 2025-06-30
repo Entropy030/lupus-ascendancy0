@@ -1,8 +1,57 @@
 // --- GLOBAL STATE & CONSTANTS ---
 
-const MOON_PHASES = ["🌕"];
-const SUN_PHASES = ["☀️"];
-const TICK_INTERVAL = 200;
+// NEW: Animated SVG definitions for icons
+const ICON_SUN = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" id="sun-icon-svg">
+  <defs>
+    <filter id="sun-glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g class="sun-body">
+    <circle cx="50" cy="50" r="25" fill="#FFD700" filter="url(#sun-glow-filter)"/>
+  </g>
+  <g class="sun-rays">
+    <!-- Group of rays to rotate -->
+    <line x1="50" y1="10" x2="50" y2="25" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="50" y1="75" x2="50" y2="90" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="10" y1="50" x2="25" y2="50" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="75" y1="50" x2="90" y2="50" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="22" y1="22" x2="33" y2="33" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="67" y1="67" x2="78" y2="78" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="22" y1="78" x2="33" y2="67" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="67" y1="33" x2="78" y2="22" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>
+`;
+
+const ICON_MOON = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" id="moon-icon-svg">
+  <defs>
+    <filter id="moon-glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.7 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g class="moon-group" filter="url(#moon-glow-filter)">
+    <path class="moon-path" d="M 75 50 A 40 40 0 1 1 50 25 A 30 30 0 1 0 75 50 Z" fill="#F1FAEE"/>
+    <!-- Animated Stars -->
+    <circle class="star" cx="20" cy="20" r="2" fill="#F1FAEE"/>
+    <circle class="star" cx="35" cy="70" r="1.5" fill="#F1FAEE"/>
+    <circle class="star" cx="80" cy="80" r="1" fill="#F1FAEE"/>
+  </g>
+</svg>
+`;
+
+const TICK_INTERVAL = 2000;
 const TICKS_PER_DAY = 24;
 const YEARS_PER_TICK = 0.08;
 
@@ -18,7 +67,6 @@ let skillsState = {};
 let gameLoopInterval = null;
 let visualTheme = 'auto';
 
-// A flag to ensure the rebirth modal is only shown once per life
 let rebirthModalShown = false; 
 
 function $(id) {
@@ -52,7 +100,7 @@ function showRebirthModal(cause) {
     const modalStats = $('modal-stats');
 
     const totalLevels = Object.values(skillsState).reduce((sum, skill) => sum + skill.level, 0);
-    const echoesGained = Math.floor(totalLevels / 10);
+    const echoesGained = 1 + Math.floor(totalLevels / 5);
 
     if (cause === 'old_age') {
         modalTitle.textContent = "Your Life Fades";
@@ -66,26 +114,20 @@ function showRebirthModal(cause) {
     modalOverlay.style.display = 'flex';
 }
 
-
 function performRebirth() {
     let totalLevels = 0;
     for (const skill in skillsState) {
         totalLevels += skillsState[skill].level;
     }
-    const echoesGained = Math.floor(totalLevels / 10);
-
+    const echoesGained = 1 + Math.floor(totalLevels / 5);
     legacyState.rebirths += 1;
     legacyState.bloodEchoes += echoesGained;
 
     resetPlayerState();
-    
     $('modal-overlay').style.display = 'none';
-
     saveGame();
     updateUI();
     renderAllTalents();
-
-    console.log(`Rebirth #${legacyState.rebirths} complete! You gained ${echoesGained} Blood Echoes.`);
     
     if (!gameLoopInterval) {
         gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
@@ -111,11 +153,10 @@ function resetPlayerState() {
     if (lingeringKnowledge) {
         const talentInfo = gameConfig.talents.find(t => t.id === 'lingering_knowledge');
         for(const skill in skillsState) {
-            gainSkillXp(skill, talentInfo.value);
+            gainSkillXp(skill, talentInfo.value, true); // Pass true to ignore xpBonus
         }
     }
 }
-
 
 // --- TALENT SYSTEM ---
 
@@ -124,7 +165,6 @@ function purchaseTalent(talentId) {
     if (!talent) return;
     const currentLevel = legacyState.purchasedTalents[talentId] || 0;
     if (currentLevel >= talent.maxLevel) return;
-
     if (legacyState.bloodEchoes >= talent.cost) {
         legacyState.bloodEchoes -= talent.cost;
         legacyState.purchasedTalents[talentId] = currentLevel + 1;
@@ -147,19 +187,15 @@ function createTalentCard(talent) {
     const title = document.createElement('div');
     title.className = 'talent-title';
     title.textContent = talent.name;
-
     const level = document.createElement('div');
     level.className = 'talent-level';
     level.textContent = `Level: ${currentLevel} / ${talent.maxLevel}`;
-
     const desc = document.createElement('div');
     desc.className = 'talent-desc';
     desc.textContent = talent.description;
-
     const cost = document.createElement('div');
     cost.className = 'talent-cost';
     cost.innerHTML = `Cost: <span style="color: var(--talent-accent);">${talent.cost}</span> 🩸`;
-
     const action = document.createElement('div');
     action.className = 'talent-action';
     const button = document.createElement('button');
@@ -167,7 +203,6 @@ function createTalentCard(talent) {
     button.disabled = isMaxed || !canAfford;
     if (!isMaxed) button.onclick = () => purchaseTalent(talent.id);
     action.appendChild(button);
-
     card.append(title, level, desc, cost, action);
     return card;
 }
@@ -197,14 +232,12 @@ function applyJobRewards() {
     if (!playerState.activeJob) return;
     const job = gameConfig.jobs.find(j => j.name === playerState.activeJob);
     if (!job) return;
-
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
     const jobIsActiveNow = (job.type === 'human' && !isNight) || (job.type === 'werewolf' && isNight);
     if (!jobIsActiveNow) return;
 
     let coinGain = 10;
     const xpGain = 5;
-
     const primalGreedLevel = legacyState.purchasedTalents['primal_greed'] || 0;
     if (primalGreedLevel > 0) coinGain *= (1 + (primalGreedLevel * 0.1));
 
@@ -214,13 +247,13 @@ function applyJobRewards() {
     }
     
     if (job.reputationEffects) {
-        let { repVillage: villageRepGain = 0, repWolf: wolfRepGain = 0 } = job.reputationEffects;
+        let { repVillage: vRep = 0, repWolf: wRep = 0 } = job.reputationEffects;
         const humanityCharmLevel = legacyState.purchasedTalents['humanity_charm'] || 0;
         const feralAffinityLevel = legacyState.purchasedTalents['feral_affinity'] || 0;
-        if(villageRepGain > 0 && humanityCharmLevel > 0) villageRepGain *= (1 + (humanityCharmLevel * 0.1));
-        if(wolfRepGain > 0 && feralAffinityLevel > 0) wolfRepGain *= (1 + (feralAffinityLevel * 0.1));
-        playerState.repVillage += villageRepGain;
-        playerState.repWolf += wolfRepGain;
+        if(vRep > 0 && humanityCharmLevel > 0) vRep *= (1 + (humanityCharmLevel * 0.1));
+        if(wRep > 0 && feralAffinityLevel > 0) wRep *= (1 + (feralAffinityLevel * 0.1));
+        playerState.repVillage += vRep;
+        playerState.repWolf += wRep;
     }
 }
 
@@ -240,13 +273,7 @@ function triggerNightEvent() {
         const eventTemplate = gameConfig.nightEvents[Math.floor(Math.random() * gameConfig.nightEvents.length)];
         const jobType = currentJob.type;
         const outcome = eventTemplate.effects ? eventTemplate.effects[jobType] : null;
-        if (outcome) {
-            return {
-                type: eventTemplate.name,
-                flavor: outcome.flavor || eventTemplate.flavor,
-                effects: { ...outcome }
-            };
-        }
+        if (outcome) return { type: eventTemplate.name, flavor: outcome.flavor || eventTemplate.flavor, effects: { ...outcome } };
         return { type: eventTemplate.name, flavor: eventTemplate.flavor, effects: {} };
     }
     return null;
@@ -300,10 +327,11 @@ function createJobCard(job) {
 
 function renderAllJobs() { if ($('jobs')) { $('jobs').innerHTML = ''; gameConfig.jobs.forEach(job => $('jobs').appendChild(createJobCard(job))); } }
 
-function gainSkillXp(skillName, xpGain) {
+function gainSkillXp(skillName, xpGain, ignoreBonus = false) {
     if (!skillsState[skillName]) return;
     const skill = skillsState[skillName];
-    skill.xp += xpGain;
+    const finalXpGain = ignoreBonus ? xpGain : xpGain * (legacyState.xpBonus || 1); // Fallback to 1 if xpBonus is not defined
+    skill.xp += finalXpGain;
     if (skill.xp >= skill.xpToNext) {
         while (skill.xp >= skill.xpToNext) {
             skill.xp -= skill.xpToNext;
@@ -314,6 +342,7 @@ function gainSkillXp(skillName, xpGain) {
         renderAllJobs();
     }
 }
+
 
 function renderSkillCard(name, skill) {
     const card = document.createElement('div');
@@ -354,8 +383,14 @@ function updateUI() {
     if ($('curseLevel')) $('curseLevel').textContent = playerState.curseLevel;
     if ($('rebirths')) $('rebirths').textContent = legacyState.rebirths;
     if ($('bloodEchoes')) $('bloodEchoes').textContent = legacyState.bloodEchoes;
+    
+    // UPDATED: Use SVG icons instead of emojis
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
-    if ($('moonIcon')) $('moonIcon').textContent = isNight ? MOON_PHASES[0] : SUN_PHASES[0];
+    const iconContainer = $('timeIconContainer');
+    if (iconContainer) {
+        iconContainer.innerHTML = isNight ? ICON_MOON : ICON_SUN;
+    }
+
     applyVisualTheme();
     renderAllSkills();
 }
@@ -367,13 +402,11 @@ function gameTick() {
         rebirthModalShown = true; 
         return; 
     }
-
     playerState.day++;
     playerState.age += YEARS_PER_TICK;
     applyJobRewards();
     const event = triggerNightEvent();
     const eventSection = $('eventPanel');
-    
     if (event) {
         const dayNumber = Math.floor(playerState.day / TICKS_PER_DAY);
         $('nightTitle').textContent = `Night of Day ${dayNumber}`;
@@ -392,7 +425,6 @@ function gameTick() {
     } else {
         eventSection.classList.remove('show');
     }
-    
     updateUI();
 }
 
@@ -435,16 +467,13 @@ function setupThemeToggle() {
 async function initializeGame() {
     loadGame();
     try {
-        // FINAL GITHUB PAGES PATH FIX
-        const configPath = 'game_config.json';
-        const configResponse = await fetch(configPath);
-        if (!configResponse.ok) throw new Error(`Failed to fetch ${configPath}.`);
+        const configResponse = await fetch('game_config.json');
+        if (!configResponse.ok) throw new Error('Failed to fetch game_config.json.');
         gameConfig = await configResponse.json();
         
         resetPlayerState(); 
         setupTabs();
         setupThemeToggle();
-        
         $('modal-rebirth-button').addEventListener('click', performRebirth);
 
         applyVisualTheme();
