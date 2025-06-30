@@ -48,24 +48,16 @@ const ICON_MOON = `
 </svg>
 `;
 
-const TICK_INTERVAL = 50;
 const TICKS_PER_DAY = 24;
-const YEARS_PER_TICK = 0.008;
 
 let gameConfig = {};
 let playerState = {};
-let legacyState = {
-    rebirths: 0,
-    bloodEchoes: 0,
-    purchasedTalents: {},
-};
-
+let legacyState = {};
 let skillsState = {};
-let gameLoopInterval = null;
 let visualTheme = 'auto';
 let lastIsNightState = null;
 
-let rebirthModalShown = false; 
+let worker; // The Web Worker
 
 function $(id) {
     const sanitizedId = id.replace(/\s+/g, '-');
@@ -75,24 +67,36 @@ function $(id) {
 // --- SAVE & LOAD ---
 
 function saveGame() {
-    localStorage.setItem('lupus_legacy_save', JSON.stringify(legacyState));
+    const fullSaveState = {
+        player: playerState,
+        skills: skillsState,
+        legacy: legacyState,
+        timestamp: Date.now()
+    };
+    // To save the Set, we convert it to an array
+    if (fullSaveState.player.completedJobs) {
+        fullSaveState.player.completedJobs = Array.from(fullSaveState.player.completedJobs);
+    }
+    localStorage.setItem('lupus_full_save', JSON.stringify(fullSaveState));
+    console.log("Game saved at", new Date(fullSaveState.timestamp).toLocaleTimeString());
 }
 
 function loadGame() {
-    const savedData = localStorage.getItem('lupus_legacy_save');
+    const savedData = localStorage.getItem('lupus_full_save');
     if (savedData) {
         const loadedState = JSON.parse(savedData);
-        legacyState = { ...{ rebirths: 0, bloodEchoes: 0, purchasedTalents: {} }, ...loadedState };
-        console.log("Loaded permanent progress:", legacyState);
+        playerState = loadedState.player;
+        playerState.completedJobs = new Set(playerState.completedJobs);
+        skillsState = loadedState.skills;
+        legacyState = loadedState.legacy;
+        return loadedState.timestamp;
     }
+    return null;
 }
 
 // --- REBIRTH & DEATH LOGIC ---
 
 function showRebirthModal(cause) {
-    clearInterval(gameLoopInterval);
-    gameLoopInterval = null;
-
     const modalOverlay = $('modal-overlay');
     const modalTitle = $('modal-title');
     const modalText = $('modal-text');
@@ -114,25 +118,8 @@ function showRebirthModal(cause) {
 }
 
 function performRebirth() {
-    let totalLevels = 0;
-    for (const skill in skillsState) {
-        totalLevels += skillsState[skill].level;
-    }
-    const echoesGained = 1 + Math.floor(totalLevels / 5);
-    legacyState.rebirths += 1;
-    legacyState.bloodEchoes += echoesGained;
-
-    resetPlayerState();
+    worker.postMessage({ type: 'PERFORM_REBIRTH' });
     $('modal-overlay').style.display = 'none';
-    saveGame();
-    renderAllJobs();
-    renderAllTalents();
-    renderAllHousing();
-    updateUI();
-    
-    if (!gameLoopInterval) {
-        gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
-    }
 }
 
 function resetPlayerState() {
@@ -140,46 +127,27 @@ function resetPlayerState() {
         day: 0,
         age: gameConfig.ages.startAge,
         coins: 0,
-        completedJobs: new Set(),
+        completedJobs: new Set(['Simple Villager']),
         activeJob: 'Simple Villager',
         repVillage: 0,
         repWolf: 0,
         curseLevel: 0,
-        currentHousingTier: -1, // -1 means no housing
+        currentHousingTier: -1,
     };
-    rebirthModalShown = false; 
-    playerState.completedJobs.add('Simple Villager');
     skillsState = JSON.parse(JSON.stringify(gameConfig.skillDefinitions));
-    
-    const lingeringKnowledge = legacyState.purchasedTalents['lingering_knowledge'];
-    if (lingeringKnowledge) {
-        const talentInfo = gameConfig.talents.find(t => t.id === 'lingering_knowledge');
-        for(const skill in skillsState) {
-            gainSkillXp(skill, talentInfo.value, true);
-        }
-    }
+    legacyState = { rebirths: 0, bloodEchoes: 0, purchasedTalents: {} };
 }
 
-// --- TALENT SYSTEM ---
+// --- TALENT SYSTEM & HOUSING ---
 
 function purchaseTalent(talentId) {
-    const talent = gameConfig.talents.find(t => t.id === talentId);
-    if (!talent) return;
-    const currentLevel = legacyState.purchasedTalents[talentId] || 0;
-    if (currentLevel >= talent.maxLevel) return;
-    if (legacyState.bloodEchoes >= talent.cost) {
-        legacyState.bloodEchoes -= talent.cost;
-        legacyState.purchasedTalents[talentId] = currentLevel + 1;
-        saveGame();
-        renderAllTalents();
-        updateUI();
-    }
+    worker.postMessage({ type: 'PURCHASE_TALENT', payload: { talentId } });
 }
 
 function createTalentCard(talent) {
     const card = document.createElement('div');
     card.className = 'card talent-card';
-    const currentLevel = legacyState.purchasedTalents[talent.id] || 0;
+    const currentLevel = (legacyState.purchasedTalents && legacyState.purchasedTalents[talent.id]) || 0;
     const isMaxed = currentLevel >= talent.maxLevel;
     const canAfford = legacyState.bloodEchoes >= talent.cost;
 
@@ -217,28 +185,19 @@ function renderAllTalents() {
     }
 }
 
-// --- HOUSING SYSTEM ---
-
 function purchaseHousing(tierIndex) {
-    if (tierIndex !== playerState.currentHousingTier + 1) return;
-    const tier = gameConfig.housingTiers[tierIndex];
-    if (!tier || playerState.coins < tier.cost) return;
-
-    playerState.coins -= tier.cost;
-    playerState.currentHousingTier = tierIndex;
-    renderAllHousing();
-    updateUI();
+    worker.postMessage({ type: 'PURCHASE_HOUSING', payload: { tierIndex } });
 }
 
 function createHousingCard(tier, index) {
     const card = document.createElement('div');
-    card.className = 'card job-card'; // Re-use job-card style for consistency
+    card.className = 'card job-card';
     const isPurchased = playerState.currentHousingTier >= index;
     const canAfford = playerState.coins >= tier.cost;
     const isNext = playerState.currentHousingTier === index - 1;
 
-    if (isPurchased) card.classList.add('active-job'); // Use active-job style for purchased
-    if (!isNext || !canAfford) card.classList.add('locked');
+    if (isPurchased) card.classList.add('active-job');
+    if (!isPurchased && (!isNext || !canAfford)) card.classList.add('locked');
 
     const title = document.createElement('div');
     title.className = 'job-title';
@@ -280,16 +239,6 @@ function renderAllHousing() {
     }
 }
 
-function getEffectiveMaxAge() {
-    let maxAge = gameConfig.ages.maxAge;
-    if (playerState.currentHousingTier > -1) {
-        for (let i = 0; i <= playerState.currentHousingTier; i++) {
-            maxAge += gameConfig.housingTiers[i].maxAgeBonus;
-        }
-    }
-    return maxAge;
-}
-
 // --- THEME ---
 function applyVisualTheme() {
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
@@ -299,76 +248,16 @@ function applyVisualTheme() {
     } else { document.body.className = visualTheme; }
 }
 
-// --- CORE GAME LOGIC ---
-
-function skillNameFromProduce(str) { return str.toLowerCase().endsWith('xp') ? str.slice(0, -2).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : str.replace(/\b\w/g, l => l.toUpperCase()); }
-
-function applyJobRewards() {
-    if (!playerState.activeJob) return;
-    const job = gameConfig.jobs.find(j => j.name === playerState.activeJob);
-    if (!job) return;
-    const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
-    const jobIsActiveNow = (job.type === 'human' && !isNight) || (job.type === 'werewolf' && isNight);
-    if (!jobIsActiveNow) return;
-
-    let coinGain = 1;
-    const xpGain = 0.5;
-    const primalGreedLevel = legacyState.purchasedTalents['primal_greed'] || 0;
-    if (primalGreedLevel > 0) coinGain *= (1 + (primalGreedLevel * 0.1));
-
-    for (const item of job.produces) {
-        if (item === 'coins') playerState.coins += coinGain;
-        else if (item.endsWith('XP')) gainSkillXp(skillNameFromProduce(item), xpGain);
-    }
-    
-    if (job.reputationEffects) {
-        let { repVillage: vRep = 0, repWolf: wRep = 0 } = job.reputationEffects;
-        const humanityCharmLevel = legacyState.purchasedTalents['humanity_charm'] || 0;
-        const feralAffinityLevel = legacyState.purchasedTalents['feral_affinity'] || 0;
-        if(vRep > 0 && humanityCharmLevel > 0) vRep *= (1 + (humanityCharmLevel * 0.1));
-        if(wRep > 0 && feralAffinityLevel > 0) wRep *= (1 + (feralAffinityLevel * 0.1));
-        playerState.repVillage += vRep / 10;
-        playerState.repWolf += wRep / 10;
-    }
-}
-
-function triggerNightEvent() {
-    if (playerState.day % TICKS_PER_DAY !== 0) return null;
-
-    const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
-    if (!isNight) return null;
-    const currentJob = gameConfig.jobs.find(j => j.name === playerState.activeJob);
-    if (!currentJob) return null;
-
-    if (currentJob.name === 'Seer' && Math.random() < 0.5) return { type: "Seer's Vision", flavor: "You gaze into the stars..." };
-    if (currentJob.type === 'werewolf' && Math.random() < 0.4) {
-        return Math.random() < 0.7 
-            ? { type: "Successful Hunt", flavor: "The thrill of the hunt...", effects: { repWolf: 2, repVillage: -1 } }
-            : { type: "Failed Hunt", flavor: "The prey was too swift." };
-    }
-    if (Math.random() < 0.2) {
-        const eventTemplate = gameConfig.nightEvents[Math.floor(Math.random() * gameConfig.nightEvents.length)];
-        const jobType = currentJob.type;
-        const outcome = eventTemplate.effects ? eventTemplate.effects[jobType] : null;
-        if (outcome) return { type: eventTemplate.name, flavor: outcome.flavor || eventTemplate.flavor, effects: { ...outcome } };
-        return { type: eventTemplate.name, flavor: eventTemplate.flavor, effects: {} };
-    }
-    return null;
-}
-
 // --- JOB & SKILL RENDERING ---
 
 function setActiveJob(jobName) {
-    playerState.activeJob = jobName;
-    playerState.completedJobs.add(jobName);
-    renderAllJobs();
-    updateUI();
+    worker.postMessage({ type: 'SET_JOB', payload: { jobName } });
 }
 
 function createJobCard(job) {
     const card = document.createElement('div');
     card.className = 'card job-card';
-    const previousJobsMet = job.requires.length === 0 || job.requires.every(req => playerState.completedJobs.has(req));
+    const previousJobsMet = job.requires.length === 0 || Array.from(playerState.completedJobs).every(req => playerState.completedJobs.has(req));
     let skillsMet = true;
     let skillReqText = [];
     if (job.skillRequires) {
@@ -386,7 +275,7 @@ function createJobCard(job) {
     title.textContent = job.name;
     const details = document.createElement('div');
     details.className = 'job-details';
-    details.textContent = `Produces: ${job.produces.map(p => skillNameFromProduce(p)).join(', ')}`;
+    details.textContent = `Produces: ${job.produces.map(p => p.replace('XP', ' XP')).join(', ')}`;
     const requirements = document.createElement('div');
     requirements.className = 'job-details';
     let reqs = [...job.requires, ...skillReqText];
@@ -403,28 +292,6 @@ function createJobCard(job) {
 }
 
 function renderAllJobs() { if ($('jobs')) { $('jobs').innerHTML = ''; gameConfig.jobs.forEach(job => $('jobs').appendChild(createJobCard(job))); } }
-
-function gainSkillXp(skillName, xpGain, ignoreBonus = false) {
-    if (!skillsState[skillName]) return;
-    const skill = skillsState[skillName];
-    const finalXpGain = ignoreBonus ? xpGain : xpGain * (legacyState.xpBonus || 1);
-    
-    skill.xp += finalXpGain;
-
-    let leveledUp = false;
-    while (skill.xp >= skill.xpToNext) {
-        skill.xp -= skill.xpToNext;
-        skill.level += 1;
-        skill.xpToNext = Math.round(skill.xpToNext * 1.5);
-        leveledUp = true;
-    }
-    
-    if (leveledUp) {
-        renderAllJobs();
-    }
-}
-
-// --- EFFICIENT SKILL RENDERING LOGIC ---
 
 function renderSkillCard(name, skill) {
     const card = document.createElement('div');
@@ -479,15 +346,17 @@ function updateSkill(name, skill) {
 }
 
 function updateAllSkills() {
+    if (!skillsState) return;
     for (const [name, skill] of Object.entries(skillsState)) {
         updateSkill(name, skill);
     }
 }
 
-
 // --- UI & GAME LOOP ---
 
 function updateUI() {
+    if (!playerState || !legacyState) return;
+    
     if ($('age')) $('age').textContent = Math.floor(playerState.age);
     if ($('job')) $('job').textContent = playerState.activeJob || 'None';
     if ($('coinNum')) $('coinNum').textContent = Math.floor(playerState.coins).toLocaleString();
@@ -495,27 +364,12 @@ function updateUI() {
     if ($('repVillage')) $('repVillage').textContent = playerState.repVillage.toFixed(2);
     if ($('repWolf')) $('repWolf').textContent = playerState.repWolf.toFixed(2);
     if ($('curseLevel')) $('curseLevel').textContent = playerState.curseLevel;
-    if ($('rebirths')) $('rebirths').textContent = legacyState.rebirths;
-    if ($('bloodEchoes')) $('bloodEchoes').textContent = legacyState.bloodEchoes;
+    if ($('rebirths')) $('rebirths').textContent = legacyState.rebirths || 0;
+    if ($('bloodEchoes')) $('bloodEchoes').textContent = legacyState.bloodEchoes || 0;
 
     const currentHousingName = playerState.currentHousingTier > -1 ? gameConfig.housingTiers[playerState.currentHousingTier].name : 'None';
     if ($('currentHousing')) $('currentHousing').textContent = currentHousingName;
     
-    applyVisualTheme();
-    updateAllSkills();
-}
-
-function gameTick() {
-    const effectiveMaxAge = getEffectiveMaxAge();
-    if (!rebirthModalShown && (playerState.age >= gameConfig.ages.rebirthAge || playerState.age >= effectiveMaxAge)) {
-        const cause = playerState.age >= effectiveMaxAge ? "old_age" : "choice";
-        showRebirthModal(cause);
-        rebirthModalShown = true; 
-        return; 
-    }
-    playerState.day++;
-    playerState.age += YEARS_PER_TICK;
-
     const isNight = (playerState.day % TICKS_PER_DAY) >= (TICKS_PER_DAY / 2);
     if (isNight !== lastIsNightState) {
         $('sun-icon-wrapper').style.display = isNight ? 'none' : 'block';
@@ -523,31 +377,9 @@ function gameTick() {
         lastIsNightState = isNight;
     }
 
-    applyJobRewards();
-    const event = triggerNightEvent();
-    const eventSection = $('eventPanel');
-    if (event) {
-        const dayNumber = Math.floor(playerState.day / TICKS_PER_DAY);
-        $('nightTitle').textContent = `Night of Day ${dayNumber}`;
-        $('eventFlavor').textContent = event.flavor || 'A strange feeling washes over you.';
-        eventSection.classList.add('show');
-        if (event.effects) {
-            let { repVillage: vRep = 0, repWolf: wRep = 0, curseLevel: cLvl = 0 } = event.effects;
-            const humanityCharmLevel = legacyState.purchasedTalents['humanity_charm'] || 0;
-            const feralAffinityLevel = legacyState.purchasedTalents['feral_affinity'] || 0;
-            if(vRep > 0 && humanityCharmLevel > 0) vRep *= (1 + (humanityCharmLevel * 0.1));
-            if(wRep > 0 && feralAffinityLevel > 0) wRep *= (1 + (feralAffinityLevel * 0.1));
-            playerState.repVillage += vRep;
-            playerState.repWolf += wRep;
-            playerState.curseLevel += cLvl;
-        }
-    } else {
-        eventSection.classList.remove('show');
-    }
-    updateUI();
+    applyVisualTheme();
+    updateAllSkills();
 }
-
-// --- SETUP FUNCTIONS ---
 
 function setupTabs() {
     const buttons = document.querySelectorAll('nav button');
@@ -559,6 +391,7 @@ function setupTabs() {
             btn.classList.add('active');
             const target = $(btn.dataset.tab);
             if (target) target.classList.add('active');
+            // Re-render on tab switch to ensure data is fresh
             switch(btn.dataset.tab) {
                 case 'jobs': renderAllJobs(); break;
                 case 'talents': renderAllTalents(); break;
@@ -584,33 +417,81 @@ function setupThemeToggle() {
 }
 
 async function initializeGame() {
-    loadGame();
     try {
         const configResponse = await fetch('game_config.json');
         if (!configResponse.ok) throw new Error('Failed to fetch game_config.json.');
         gameConfig = await configResponse.json();
         
+        worker = new Worker('worker.js');
+
+        worker.onmessage = function(e) {
+            const { type, payload } = e.data;
+            switch(type) {
+                case 'UPDATE':
+                    playerState = payload.playerState;
+                    playerState.completedJobs = new Set(playerState.completedJobs);
+                    skillsState = payload.skillsState;
+                    legacyState = payload.legacyState;
+                    updateUI();
+                    // BUG FIX: Re-render jobs on every update to catch unlocks
+                    renderAllJobs();
+                    break;
+                case 'EVENT_TRIGGERED':
+                    const eventSection = $('eventPanel');
+                    const dayNumber = Math.floor(playerState.day / TICKS_PER_DAY);
+                    $('nightTitle').textContent = `Night of Day ${dayNumber}`;
+                    $('eventFlavor').textContent = payload.flavor || 'A strange feeling washes over you.';
+                    eventSection.classList.add('show');
+                    break;
+                case 'CLEAR_EVENT':
+                    $('eventPanel').classList.remove('show');
+                    break;
+                case 'NEEDS_JOB_RENDER':
+                    renderAllJobs();
+                    break;
+                case 'SHOW_REBIRTH_MODAL':
+                    worker.postMessage({ type: 'STOP' });
+                    showRebirthModal(payload.cause);
+                    break;
+            }
+        };
+
+        const lastTimestamp = loadGame();
+        if (!lastTimestamp) {
+            resetPlayerState();
+        }
+
+        const payload = {
+            gameConfig,
+            playerState: { ...playerState, completedJobs: Array.from(playerState.completedJobs) }, // Convert Set to array for worker
+            skillsState,
+            legacyState
+        };
+        worker.postMessage({ type: 'START', payload });
+
         $('sun-icon-wrapper').innerHTML = ICON_SUN;
         $('moon-icon-wrapper').innerHTML = ICON_MOON;
 
-        resetPlayerState(); 
         setupTabs();
         setupThemeToggle();
         $('modal-rebirth-button').addEventListener('click', performRebirth);
 
         renderAllSkills();
         renderAllHousing();
-        
-        applyVisualTheme();
-        updateUI(); 
         renderAllJobs();
         renderAllTalents();
         
-        lastIsNightState = null;
-        gameTick(); 
+        applyVisualTheme();
+        updateUI(); 
+        
+        setInterval(saveGame, 5000);
 
-        setInterval(saveGame, 10000);
-        gameLoopInterval = setInterval(gameTick, TICK_INTERVAL);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                saveGame();
+            }
+        });
+
     } catch (error) {
         console.error("Error initializing game:", error);
         document.body.innerHTML = `<div style="color: white; text-align: center; padding: 50px;"><h1>Error loading game data</h1><p>${error.message}</p></div>`;

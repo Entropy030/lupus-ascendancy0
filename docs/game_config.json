@@ -17,6 +17,13 @@
       "value": 0.1
     },
     {
+      "id": "tome_of_experience",
+      "name": "Tome of Experience",
+      "description": "Ancient knowledge flows through you. All skill XP gains are permanently increased by 10%.",
+      "cost": 3,
+      "maxLevel": 10
+    },
+    {
       "id": "feral_affinity",
       "name": "Feral Affinity",
       "description": "The whispers of the pack resonate deeper within you. All Wolf Reputation gains are permanently increased by 10%.",
@@ -46,38 +53,38 @@
   ],
   "jobs": [
     {
-      "name": "Simple Villager", "tier": 1, "type": "human", "requires": [],
+      "name": "Simple Villager", "tier": 1, "type": "human", "requires": [], "coinGain": 1,
       "produces": ["coins"], "reputationEffects": { "repVillage": 0.05 }
     },
     {
-      "name": "Cursed Human", "tier": 1, "type": "werewolf", "requires": [],
+      "name": "Cursed Human", "tier": 1, "type": "werewolf", "requires": [], "coinGain": 0,
       "produces": ["curseXP"], "reputationEffects": { "repVillage": -0.02 }
     },
     {
-      "name": "Hunter", "tier": 2, "type": "human", "requires": ["Simple Villager"],
+      "name": "Hunter", "tier": 2, "type": "human", "requires": ["Simple Villager"], "coinGain": 3,
       "produces": ["coins", "trackingXP"], "reputationEffects": { "repVillage": 0.1 }
     },
     {
-      "name": "Wolf Cub", "tier": 2, "type": "werewolf", "requires": ["Cursed Human"],
-      "produces": ["feralInstinctXP"], "reputationEffects": { "repWolf": 0.1 }
+      "name": "Wolf Cub", "tier": 2, "type": "werewolf", "requires": ["Cursed Human"], "coinGain": 1,
+      "produces": ["coins", "feralInstinctXP"], "reputationEffects": { "repWolf": 0.1 }
     },
     {
-      "name": "Seer", "tier": 3, "type": "human", "requires": ["Hunter"],
+      "name": "Seer", "tier": 3, "type": "human", "requires": ["Hunter"], "coinGain": 8,
       "skillRequires": { "Tracking": 5 },
       "produces": ["coins", "divinationXP"], "reputationEffects": { "repVillage": 0.05, "repWolf": -0.05 }
     },
     {
-      "name": "Great, Evil Wolf", "tier": 3, "type": "werewolf", "requires": ["Wolf Cub"],
+      "name": "Great, Evil Wolf", "tier": 3, "type": "werewolf", "requires": ["Wolf Cub"], "coinGain": 5,
       "skillRequires": { "Feral Instinct": 5 },
-      "produces": ["intimidationXP"], "reputationEffects": { "repWolf": 0.2, "repVillage": -0.1 }
+      "produces": ["coins", "intimidationXP"], "reputationEffects": { "repWolf": 0.2, "repVillage": -0.1 }
     },
     {
-      "name": "Witch", "tier": 4, "type": "human", "requires": ["Seer"],
+      "name": "Witch", "tier": 4, "type": "human", "requires": ["Seer"], "coinGain": 15,
       "produces": ["coins", "alchemyXP"], "reputationEffects": { "repVillage": -0.05, "repWolf": -0.05 }
     },
     {
-      "name": "White Werewolf", "tier": 4, "type": "werewolf", "requires": ["Great, Evil Wolf"],
-      "produces": ["alphaInstinctXP"], "reputationEffects": { "repWolf": 0.3 }
+      "name": "White Werewolf", "tier": 4, "type": "werewolf", "requires": ["Great, Evil Wolf"], "coinGain": 12,
+      "produces": ["coins", "alphaInstinctXP"], "reputationEffects": { "repWolf": 0.3 }
     }
   ],
   "skillDefinitions": {
